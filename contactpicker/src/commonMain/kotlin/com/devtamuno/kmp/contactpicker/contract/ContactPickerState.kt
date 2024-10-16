@@ -8,7 +8,7 @@ interface ContactPickerState {
     val value: State<Contact?>
 
     @Composable
-    fun registerContactPicker()
+    fun initContactPicker()
 
     fun launchContactPicker()
 }

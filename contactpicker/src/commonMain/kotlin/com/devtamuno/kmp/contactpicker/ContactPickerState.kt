@@ -12,7 +12,7 @@ fun rememberContactPickerState(
     contactPicked: (Contact?) -> Unit,
 ): ContactPickerState {
     return rememberMutableContactPickerState(contactPicked).also {
-       it.registerContactPicker()
+       it.initContactPicker()
     }
 }
 

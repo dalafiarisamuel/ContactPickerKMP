@@ -17,7 +17,7 @@ internal class ContactPickerStateImpl(
     private val contactPicker = ContactPicker()
 
     @Composable
-    override fun registerContactPicker() {
+    override fun initContactPicker() {
         contactPicker.registerContactPicker {
             _value.value = it
             contactPicked(it)
