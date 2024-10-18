@@ -17,14 +17,12 @@ internal actual class ContactPicker {
     private lateinit var picker: ManagedActivityResultLauncher<Void?, Uri?>
 
     @Composable
-    actual fun registerContactPicker(onContactPicked: (Contact?) -> Unit) {
+    actual fun registerContactPicker(onContactSelected: (Contact?) -> Unit) {
         val context = LocalContext.current
         picker = rememberLauncherForActivityResult(ActivityResultContracts.PickContact()) { uri ->
             if (uri != null) {
                 val contact = getContactFromUri(context, uri)
-                onContactPicked(contact)
-            } else {
-                onContactPicked(null)
+                onContactSelected(contact)
             }
         }
     }

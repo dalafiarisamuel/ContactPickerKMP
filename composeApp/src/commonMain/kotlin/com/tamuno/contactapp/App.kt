@@ -8,6 +8,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -20,20 +21,21 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     MaterialTheme {
-        //val writeStorage = rememberPermissionState()
 
         val contactPicker = rememberContactPickerState {
             println(it)
         }
 
+        val contactSelected by contactPicker.value
+
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
             Button(onClick = { contactPicker.launchContactPicker() }) {
-                Text("Click me!")
+                Text("Pick Contact!")
             }
 
             Spacer(modifier = Modifier.padding(20.dp))
 
-            Text("Selected Contact: ${contactPicker.value.value?.name}")
+            Text("Selected Contact: ${contactSelected?.name}")
 
         }
     }

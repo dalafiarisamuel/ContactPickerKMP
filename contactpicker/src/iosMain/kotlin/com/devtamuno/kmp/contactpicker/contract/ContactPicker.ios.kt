@@ -18,11 +18,18 @@ internal actual class ContactPicker {
 
     private val contactPicker = CNContactPickerViewController()
 
+    private lateinit var onContactSelected: (Contact?) -> Unit
+
     @Composable
-    actual fun registerContactPicker(onContactPicked: (Contact?) -> Unit) {
+    actual fun registerContactPicker(onContactSelected: (Contact?) -> Unit) {
+        this.onContactSelected = onContactSelected
+    }
+
+    actual fun launchContactPicker() {
         contactPicker.delegate = object : NSObject(), CNContactPickerDelegateProtocol {
             override fun contactPickerDidCancel(picker: CNContactPickerViewController) {
-                onContactPicked(null)
+                contactPicker.delegate = null
+                picker.dismissViewControllerAnimated(true, null)
             }
 
             override fun contactPicker(
@@ -34,13 +41,14 @@ internal actual class ContactPicker {
                 val phoneNumber = getPhoneNumber(didSelectContact.phoneNumbers) ?: ""
                 val email = getEmailAddress(didSelectContact.emailAddresses) ?: ""
 
-                onContactPicked(Contact(id, name, phoneNumber, email))
+                onContactSelected(Contact(id, name, phoneNumber, email))
+                contactPicker.delegate = null
+                picker.dismissViewControllerAnimated(true, null)
+
             }
         }
         //contactPicker.setDisplayedPropertyKeys(listOf(CNContactPhoneNumbersKey))
-    }
 
-    actual fun launchContactPicker() {
         UIViewController.topMostViewController()?.presentViewController(contactPicker, true, null)
     }
 
@@ -64,8 +72,7 @@ internal actual class ContactPicker {
 
     // Add this extension to get the top most view controller
     private fun UIViewController.Companion.topMostViewController(): UIViewController? {
-        val rootViewController = UIApplication.sharedApplication.keyWindow?.rootViewController
-        return findTopMostViewController(rootViewController)
+        return findTopMostViewController(UIApplication.sharedApplication.keyWindow?.rootViewController)
     }
 
     private fun findTopMostViewController(rootViewController: UIViewController?): UIViewController? {
@@ -84,6 +91,6 @@ internal actual class ContactPicker {
             return tabBarController.selectedViewController ?: tabBarController
         }
 
-        return findTopMostViewController(rootViewController.presentedViewController)
+        return null
     }
 }
