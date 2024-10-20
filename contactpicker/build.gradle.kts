@@ -15,7 +15,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.dalafiarisamuel",
         artifactId = "contactpicker",
-        version = "0.1.0"
+        version = "0.1.1"
     )
 
     // Configure POM metadata for the published artifact
@@ -89,9 +89,6 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(libs.kotlinx.coroutines.core)
-        }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
         }
     }
 }

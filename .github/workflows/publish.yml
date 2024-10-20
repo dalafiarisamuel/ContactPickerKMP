@@ -45,6 +45,4 @@ jobs:
 
       - name: Publish To Maven Central
         run: |
-          rm -rf ~/.gradle/caches/
-          ./gradlew clean
-          ./gradlew :contactpicker:publishToMavenCentral --info --stacktrace
+          ./gradlew :contactpicker:publishToMavenCentral
