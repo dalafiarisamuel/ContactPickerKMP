@@ -45,4 +45,4 @@ jobs:
 
       - name: Publish To Maven Central
         run: |
-          ./gradlew publishToMavenCentral --warning-mode all --no-configuration-cache
+          ./gradlew publishToMavenCentral --no-daemon --info
