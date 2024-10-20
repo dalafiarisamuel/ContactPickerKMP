@@ -45,4 +45,4 @@ jobs:
 
       - name: Publish To Maven Central
         run: |
-          ./gradlew :contactpicker:publishToMavenCentral --dry-run --info
+          ./gradlew :contactpicker:publishToMavenCentral
