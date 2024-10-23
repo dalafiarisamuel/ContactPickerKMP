@@ -116,7 +116,7 @@ To sign your artifacts, you need a GPG key:
     - Save exported key to a `.gpg` file by running this command:
       ```echo "paste the exported base64 key block" | gpg --dearmor > ~/secring.gpg```. This should generate a file
       secring.gpg in your root directory.
-    - Upload your key toa public repository. This step is compulsory, as it's the only way Maven Central can validate
+    - Upload your key to a public repository. This step is compulsory, as it's the only way Maven Central can validate
       the files you're uploading: ```--keyserver keys.openpgp.org --send-key 574DEB97803CD28D5F07A4054DCE5983654E7199```
     - Check the email address attached to that key, you should get an email asking you to verify the email address.
       follow the prompt and verify the email address accordingly.
@@ -135,7 +135,7 @@ To sign your artifacts, you need a GPG key:
 4. Set up your key in `gradle.properties` as shown earlier.
     ```properties
     signing.keyId=//last 8 characters of your key e.g  654E7199
-    signing.password=// password from Step 1
+    signing.password=// password from Step 2
     signing.secretKeyRingFile=// path to your secring.gpg file
     mavenCentralUsername=//sonar username copied from Step 3
     mavenCentralPassword=//sonar password copied from Step 3
