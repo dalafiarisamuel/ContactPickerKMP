@@ -87,7 +87,9 @@ mavenPublishing {
 
 kotlin {
     androidTarget {
+        //....
         publishLibraryVariants("release")
+       //....
     }
 }
 
@@ -137,8 +139,8 @@ To sign your artifacts, you need a GPG key:
     signing.keyId=//last 8 characters of your key e.g  654E7199
     signing.password=// password from Step 2
     signing.secretKeyRingFile=// path to your secring.gpg file
-    mavenCentralUsername=//sonar username copied from Step 3
-    mavenCentralPassword=//sonar password copied from Step 3
+    mavenCentralUsername=//sonar username copied from No. 3
+    mavenCentralPassword=//sonar password copied from No. 3
    ```
 
 
@@ -155,4 +157,4 @@ To sign your artifacts, you need a GPG key:
 
 <br>
 
-###### Happy Coding ❤️🚀
+### Happy Coding ❤️🚀
