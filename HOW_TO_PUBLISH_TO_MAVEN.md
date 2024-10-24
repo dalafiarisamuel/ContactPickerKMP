@@ -114,7 +114,7 @@ To sign your artifacts, you need a GPG key:
     - Copy the long form of the newly generated gpg key e.g `574DEB97803CD28D5F07A4054DCE5983654E7199`
     - Export your key to base64 PGP private key block
       `--armor --export-secret-keys 574DEB97803CD28D5F07A4054DCE5983654E7199 | pbcopy` N/B: this will be copied to your
-      clipboard. you can paste it into another file before you contiue to the next step.
+      clipboard. you can paste it into another file before you continue to the next step.
     - Save exported key to a `.gpg` file by running this command:
       ```echo "paste the exported base64 key block" | gpg --dearmor > ~/secring.gpg```. This should generate a file
       secring.gpg in your root directory.
@@ -129,7 +129,7 @@ To sign your artifacts, you need a GPG key:
    * Login to your Maven Central account
    * Click on your Profile --> `View Account`
    * Click on `Generate User Token`
-   * If you can't remember your last generated token, generate another.
+   * If you can't find your last generated token, generate another.
    * Copy username and password, as they'll be used in the next step.
 
     <br>
