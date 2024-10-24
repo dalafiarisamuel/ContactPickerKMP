@@ -14,13 +14,34 @@ commonMain.dependencies {
 
 # Code sample:
 
-1. Using `rememberContactPickerState()` composable
+## Read Contacts Permission
+
+
+#### Android
+On Android you need to add the following permission to your `AndroidManifest.xml` file:
+
+```xml
+<!-- For Read Contacts -->
+<uses-permission android:name="android.permission.READ_CONTACTS" />
+```
+
+#### iOS
+On iOS you need to add the following key to your `Info.plist` file:
+
+```xml
+<key>NSContactsUsageDescription</key>
+<string>Contacts permission is required to access user's contacts</string>
+```
+
+The string value is the message that will be displayed to the user when the permission is requested.
+
+2. Using `rememberContactPickerState()` composable
 
 ```kotlin
+//in your commonMain package
 @Composable
 fun ContactPickerComponent() {
     
-    //in your commonMain package
     val contactPicker = rememberContactPickerState {
         println(it)
     }
@@ -40,6 +61,5 @@ fun ContactPickerComponent() {
 
     }
 }
-
 ```
 
