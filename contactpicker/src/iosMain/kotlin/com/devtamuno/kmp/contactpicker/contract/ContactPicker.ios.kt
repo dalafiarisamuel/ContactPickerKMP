@@ -38,7 +38,7 @@ internal actual class ContactPicker {
             ) {
                 val id = didSelectContact.identifier
                 val name = "${didSelectContact.givenName} ${didSelectContact.familyName}".trim()
-                val phoneNumber = getPhoneNumber(didSelectContact.phoneNumbers) ?: ""
+                val phoneNumber = getPhoneNumbers(didSelectContact.phoneNumbers)
                 val email = getEmailAddress(didSelectContact.emailAddresses) ?: ""
 
                 onContactSelected(Contact(id, name, phoneNumber, email))
@@ -52,13 +52,13 @@ internal actual class ContactPicker {
         UIViewController.topMostViewController()?.presentViewController(contactPicker, true, null)
     }
 
-    private fun getPhoneNumber(contactList: List<*>): String? {
+    private fun getPhoneNumbers(contactList: List<*>): List<String> {
         val contactListMapped: List<String?> = contactList.map {
             ((it as? CNLabeledValue)?.value) as? CNPhoneNumber
         }.map {
             it?.stringValue
         }
-        return contactListMapped.firstOrNull()
+        return contactListMapped.filterNotNull()
     }
 
     private fun getEmailAddress(emailAddresses: List<*>): String? {
