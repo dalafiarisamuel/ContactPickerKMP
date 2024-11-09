@@ -15,6 +15,11 @@ import com.devtamuno.kmp.contactpicker.data.Contact
 internal actual class ContactPicker {
 
     private lateinit var picker: ManagedActivityResultLauncher<Void?, Uri?>
+    private val projection = arrayOf(
+        ContactsContract.Contacts._ID,
+        ContactsContract.Contacts.DISPLAY_NAME,
+        ContactsContract.Contacts.HAS_PHONE_NUMBER
+    )
 
     @Composable
     actual fun registerContactPicker(onContactSelected: (Contact?) -> Unit) {
@@ -23,6 +28,8 @@ internal actual class ContactPicker {
             if (uri != null) {
                 val contact = getContactFromUri(context, uri)
                 onContactSelected(contact)
+            } else {
+                onContactSelected(null)
             }
         }
     }
@@ -32,12 +39,6 @@ internal actual class ContactPicker {
     }
 
     private fun getContactFromUri(context: Context, uri: Uri): Contact? {
-        val projection = arrayOf(
-            ContactsContract.Contacts._ID,
-            ContactsContract.Contacts.DISPLAY_NAME,
-            ContactsContract.Contacts.HAS_PHONE_NUMBER
-        )
-
         context.contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
             if (cursor.moveToFirst()) {
                 val idIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID)

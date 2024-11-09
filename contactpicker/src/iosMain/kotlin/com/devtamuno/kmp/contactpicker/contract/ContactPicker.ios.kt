@@ -28,6 +28,7 @@ internal actual class ContactPicker {
     actual fun launchContactPicker() {
         contactPicker.delegate = object : NSObject(), CNContactPickerDelegateProtocol {
             override fun contactPickerDidCancel(picker: CNContactPickerViewController) {
+                onContactSelected(null)
                 contactPicker.delegate = null
                 picker.dismissViewControllerAnimated(true, null)
             }
