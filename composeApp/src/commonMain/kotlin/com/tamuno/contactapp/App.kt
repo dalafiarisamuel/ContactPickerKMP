@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.devtamuno.kmp.contactpicker.rememberContactPickerState
 import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi
+import com.mohamedrejeb.calf.permissions.Permission
+import com.mohamedrejeb.calf.permissions.rememberPermissionState
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -22,6 +24,10 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun App() {
     MaterialTheme {
 
+        val readContacts = rememberPermissionState(
+            Permission.ReadContacts
+        )
+
         val contactPicker = rememberContactPickerState {
             println(it)
         }
@@ -29,7 +35,13 @@ fun App() {
         val contactSelected by contactPicker.value
 
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = { contactPicker.launchContactPicker() }) {
+            Button(
+                onClick = {
+                    runWithPermission(readContacts) {
+                        contactPicker.launchContactPicker()
+                    }
+                }
+            ) {
                 Text("Pick Contact!")
             }
 
