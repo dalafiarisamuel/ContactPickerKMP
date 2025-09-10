@@ -53,7 +53,7 @@ internal actual class ContactPicker {
                     getPhoneNumber(context, id)
                 } else emptyList()
 
-                val email: String = getEmail(context, id)
+                val email: List<String> = getEmail(context, id)
 
                 return Contact(id, name, phoneNumber, email)
             }
@@ -85,7 +85,8 @@ internal actual class ContactPicker {
         return phoneNumbers
     }
 
-    private fun getEmail(context: Context, contactId: String): String {
+    private fun getEmail(context: Context, contactId: String): List<String> {
+        val emailAddresses = mutableListOf<String>()
         val emailCursor: Cursor? = context.contentResolver.query(
             ContactsContract.CommonDataKinds.Email.CONTENT_URI,
             null,
@@ -95,11 +96,13 @@ internal actual class ContactPicker {
         )
 
         emailCursor?.use {
-            if (it.moveToFirst()) {
-                return it.getString(it.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Email.ADDRESS))
+            while (it.moveToNext()) {
+                emailAddresses.add(
+                    it.getString(it.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Email.ADDRESS))
+                )
             }
         }
 
-        return ""
+        return emailAddresses
     }
 }

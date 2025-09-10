@@ -3,6 +3,7 @@ package com.devtamuno.kmp.contactpicker.contract
 import androidx.compose.runtime.Composable
 import com.devtamuno.kmp.contactpicker.data.Contact
 import platform.Contacts.CNContact
+import platform.Contacts.CNContactPhoneNumbersKey
 import platform.Contacts.CNLabeledValue
 import platform.Contacts.CNPhoneNumber
 import platform.ContactsUI.CNContactPickerDelegateProtocol
@@ -39,16 +40,16 @@ internal actual class ContactPicker {
             ) {
                 val id = didSelectContact.identifier
                 val name = "${didSelectContact.givenName} ${didSelectContact.familyName}".trim()
-                val phoneNumber = getPhoneNumbers(didSelectContact.phoneNumbers)
-                val email = getEmailAddress(didSelectContact.emailAddresses) ?: ""
+                val phoneNumbers = getPhoneNumbers(didSelectContact.phoneNumbers)
+                val email = getEmailAddress(didSelectContact.emailAddresses)
 
-                onContactSelected(Contact(id, name, phoneNumber, email))
+                onContactSelected(Contact(id, name, phoneNumbers, email))
                 contactPicker.delegate = null
                 picker.dismissViewControllerAnimated(true, null)
 
             }
         }
-        //contactPicker.setDisplayedPropertyKeys(listOf(CNContactPhoneNumbersKey))
+        contactPicker.setDisplayedPropertyKeys(listOf(CNContactPhoneNumbersKey))
 
         UIViewController.topMostViewController()?.presentViewController(contactPicker, true, null)
     }
@@ -62,13 +63,13 @@ internal actual class ContactPicker {
         return contactListMapped.filterNotNull()
     }
 
-    private fun getEmailAddress(emailAddresses: List<*>): String? {
+    private fun getEmailAddress(emailAddresses: List<*>): List<String> {
         val emailAddressesListMapped: List<String?> = emailAddresses.map {
             ((it as? CNLabeledValue)?.value) as? NSString
         }.map {
             it?.toString()
         }
-        return emailAddressesListMapped.firstOrNull()
+        return emailAddressesListMapped.filterNotNull()
     }
 
     // Add this extension to get the top most view controller
