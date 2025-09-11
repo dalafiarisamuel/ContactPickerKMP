@@ -9,7 +9,7 @@ import com.devtamuno.kmp.contactpicker.data.Contact
 
 @Composable
 fun rememberContactPickerState(
-    contactPicked: (Contact?) -> Unit,
+    contactPicked: (Contact?) -> Unit = {},
 ): ContactPickerState {
     return rememberMutableContactPickerState(contactPicked).also {
        it.initContactPicker()
