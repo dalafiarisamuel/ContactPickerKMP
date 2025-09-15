@@ -1,5 +1,6 @@
 package com.devtamuno.kmp.contactpicker.contract
 
+import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
@@ -11,6 +12,7 @@ import androidx.activity.result.launch
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.devtamuno.kmp.contactpicker.data.Contact
+import androidx.core.net.toUri
 
 internal actual class ContactPicker {
 
@@ -18,7 +20,8 @@ internal actual class ContactPicker {
     private val projection = arrayOf(
         ContactsContract.Contacts._ID,
         ContactsContract.Contacts.DISPLAY_NAME,
-        ContactsContract.Contacts.HAS_PHONE_NUMBER
+        ContactsContract.Contacts.HAS_PHONE_NUMBER,
+        ContactsContract.Contacts.PHOTO_URI
     )
 
     @Composable
@@ -54,8 +57,9 @@ internal actual class ContactPicker {
                 } else emptyList()
 
                 val email: List<String> = getEmail(context, id)
+                val contactAvatar = getContactAvatar(context, id.toLong())
 
-                return Contact(id, name, phoneNumber, email)
+                return Contact(id, name, phoneNumber, email, contactAvatar)
             }
         }
 
@@ -104,5 +108,47 @@ internal actual class ContactPicker {
         }
 
         return emailAddresses
+    }
+
+    private fun getContactAvatar(context: Context, contactId: Long): ByteArray? {
+        val contactUri = ContentUris.withAppendedId(
+            ContactsContract.Contacts.CONTENT_URI,
+            contactId
+        )
+
+        val cursor = context.contentResolver.query(
+            contactUri,
+            arrayOf(ContactsContract.Contacts.PHOTO_URI),
+            null,
+            null,
+            null
+        )
+
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val photoUriString =
+                    it.getString(it.getColumnIndexOrThrow(ContactsContract.Contacts.PHOTO_URI))
+
+                if (!photoUriString.isNullOrEmpty()) {
+                    // Try full-size first
+                    context.contentResolver.openInputStream(
+                        Uri.withAppendedPath(
+                            contactUri,
+                            ContactsContract.Contacts.Photo.CONTENT_DIRECTORY
+                        )
+                    )?.use { inputStream ->
+                        return inputStream.readBytes()
+                    }
+
+                    // Fall back to thumbnail
+                    context.contentResolver.openInputStream(photoUriString.toUri())
+                        ?.use { inputStream ->
+                            return inputStream.readBytes()
+                        }
+                }
+            }
+        }
+
+        return null
     }
 }
