@@ -1,6 +1,7 @@
 package com.tamuno.contactapp
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.devtamuno.kmp.contactpicker.extension.getBitmapConverter
+import com.devtamuno.kmp.contactpicker.extension.toComposeImageBitmap
 import com.devtamuno.kmp.contactpicker.rememberContactPickerState
 import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi
 import com.mohamedrejeb.calf.permissions.Permission
@@ -38,7 +39,11 @@ fun App() {
 
         val contactSelected by contactPicker.value
 
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
             Button(
                 onClick = {
                     runWithPermission(readContacts) {
@@ -54,8 +59,9 @@ fun App() {
             Text("Selected Contact: ${contactSelected?.name}")
 
             contactSelected?.contactAvatar?.let {
-                val bitmap = getBitmapConverter().bitmapFromBytes(it)
+                val bitmap = it.toComposeImageBitmap()
                 if (bitmap != null) {
+                    Spacer(modifier = Modifier.padding(20.dp))
                     Image(
                         contentScale = ContentScale.Fit,
                         modifier = Modifier.fillMaxWidth()

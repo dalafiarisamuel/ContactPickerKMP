@@ -8,7 +8,6 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.refTo
 import platform.Contacts.CNContact
-import platform.Contacts.CNContactPhoneNumbersKey
 import platform.Contacts.CNLabeledValue
 import platform.Contacts.CNPhoneNumber
 import platform.ContactsUI.CNContactPickerDelegateProtocol
@@ -22,7 +21,7 @@ import platform.UIKit.UIViewController
 import platform.darwin.NSObject
 import platform.posix.memcpy
 
-internal actual class ContactPicker {
+internal actual class ContactPicker:  NSObject(), CNContactPickerDelegateProtocol {
 
     private val contactPicker = CNContactPickerViewController()
 
@@ -34,40 +33,38 @@ internal actual class ContactPicker {
     }
 
     actual fun launchContactPicker() {
-        contactPicker.delegate = object : NSObject(), CNContactPickerDelegateProtocol {
-            override fun contactPickerDidCancel(picker: CNContactPickerViewController) {
-                onContactSelected(null)
-                contactPicker.delegate = null
-                picker.dismissViewControllerAnimated(true, null)
-            }
-
-            override fun contactPicker(
-                picker: CNContactPickerViewController,
-                didSelectContact: CNContact,
-            ) {
-                val id = didSelectContact.identifier
-                val name = "${didSelectContact.givenName} ${didSelectContact.familyName}".trim()
-                val phoneNumbers = getPhoneNumbers(didSelectContact.phoneNumbers)
-                val email = getEmailAddress(didSelectContact.emailAddresses)
-                val photoData: ByteArray? = didSelectContact.thumbnailImageData?.toByteArray()
-
-                onContactSelected(
-                    Contact(
-                        id = id,
-                        name = name,
-                        phoneNumbers = phoneNumbers,
-                        email = email,
-                        contactAvatar = photoData
-                    )
-                )
-                contactPicker.delegate = null
-                picker.dismissViewControllerAnimated(true, null)
-
-            }
-        }
-        contactPicker.setDisplayedPropertyKeys(listOf(CNContactPhoneNumbersKey))
+        contactPicker.setDelegate(this)
 
         UIViewController.topMostViewController()?.presentViewController(contactPicker, true, null)
+    }
+    override fun contactPickerDidCancel(picker: CNContactPickerViewController) {
+        onContactSelected(null)
+        contactPicker.delegate = null
+        picker.dismissViewControllerAnimated(true, null)
+    }
+
+    override fun contactPicker(
+        picker: CNContactPickerViewController,
+        didSelectContact: CNContact,
+    ) {
+        val id = didSelectContact.identifier
+        val name = "${didSelectContact.givenName} ${didSelectContact.familyName}".trim()
+        val phoneNumbers = getPhoneNumbers(didSelectContact.phoneNumbers)
+        val email = getEmailAddress(didSelectContact.emailAddresses)
+        val photoData: ByteArray? = didSelectContact.thumbnailImageData?.toByteArray()
+
+        onContactSelected(
+            Contact(
+                id = id,
+                name = name,
+                phoneNumbers = phoneNumbers,
+                email = email,
+                contactAvatar = photoData
+            )
+        )
+        picker.dismissViewControllerAnimated(true, null)
+        contactPicker.delegate = null
+
     }
 
     private fun getPhoneNumbers(contactList: List<*>): List<String> {
