@@ -8,6 +8,6 @@ interface BitmapConverter {
 
 internal expect fun getBitmapConverter(): BitmapConverter
 
-fun ByteArray.toComposeImageBitmap(): ImageBitmap? {
+fun ByteArray.toPlatformImageBitmap(): ImageBitmap? {
     return getBitmapConverter().bitmapFromBytes(this)
 }

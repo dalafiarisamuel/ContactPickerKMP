@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.devtamuno.kmp.contactpicker.extension.toComposeImageBitmap
+import com.devtamuno.kmp.contactpicker.extension.toPlatformImageBitmap
 import com.devtamuno.kmp.contactpicker.rememberContactPickerState
 import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi
 import com.mohamedrejeb.calf.permissions.Permission
@@ -59,7 +59,7 @@ fun App() {
             Text("Selected Contact: ${contactSelected?.name}")
 
             contactSelected?.contactAvatar?.let {
-                val bitmap = it.toComposeImageBitmap()
+                val bitmap = it.toPlatformImageBitmap()
                 if (bitmap != null) {
                     Spacer(modifier = Modifier.padding(20.dp))
                     Image(
