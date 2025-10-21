@@ -25,7 +25,7 @@ internal actual class ContactPicker {
     )
 
     @Composable
-    actual fun registerContactPicker(onContactSelected: (Contact?) -> Unit) {
+    actual fun RegisterContactPicker(onContactSelected: (Contact?) -> Unit) {
         val context = LocalContext.current
         picker = rememberLauncherForActivityResult(ActivityResultContracts.PickContact()) { uri ->
             if (uri != null) {

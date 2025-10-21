@@ -28,7 +28,7 @@ internal actual class ContactPicker:  NSObject(), CNContactPickerDelegateProtoco
     private lateinit var onContactSelected: (Contact?) -> Unit
 
     @Composable
-    actual fun registerContactPicker(onContactSelected: (Contact?) -> Unit) {
+    actual fun RegisterContactPicker(onContactSelected: (Contact?) -> Unit) {
         this.onContactSelected = onContactSelected
     }
 
