@@ -5,6 +5,6 @@ import com.devtamuno.kmp.contactpicker.data.Contact
 
 internal expect class ContactPicker() {
     @Composable
-    fun registerContactPicker(onContactSelected: (Contact?) -> Unit)
+    fun RegisterContactPicker(onContactSelected: (Contact?) -> Unit)
     fun launchContactPicker()
 }
