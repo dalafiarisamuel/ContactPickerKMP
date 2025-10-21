@@ -58,18 +58,15 @@ fun App() {
 
             Text("Selected Contact: ${contactSelected?.name}")
 
-            contactSelected?.contactAvatar?.let {
-                val bitmap = it.toPlatformImageBitmap()
-                if (bitmap != null) {
-                    Spacer(modifier = Modifier.padding(20.dp))
-                    Image(
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier.fillMaxWidth()
-                            .height(200.dp),
-                        bitmap = bitmap,
-                        contentDescription = null
-                    )
-                }
+            contactSelected?.contactAvatar?.toPlatformImageBitmap()?.let { imageBitmap ->
+                Spacer(modifier = Modifier.padding(20.dp))
+                Image(
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier.fillMaxWidth()
+                        .height(200.dp),
+                    bitmap = imageBitmap,
+                    contentDescription = null
+                )
             }
         }
     }
