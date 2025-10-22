@@ -8,7 +8,7 @@ for Android and iOS.
 - In build.gradle file, add this dependency
     ````
     commonMain.dependencies {
-        implementation("io.github.dalafiarisamuel:contactpicker:0.1.1")
+        implementation("io.github.dalafiarisamuel:contactpicker:0.2.0")
     }
     ````
 
@@ -56,6 +56,20 @@ for Android and iOS.
             Spacer(modifier = Modifier.padding(20.dp))
     
             Text("Selected Contact: ${contactSelected?.name}")
+   
+        // to display contact image, import `toPlatformImageBitmap()` extension function from `com.devtamuno.kmp.contactpicker.extension` package
+        // if there's not contact image, `contactSelected?.contactAvatar` will be null
+        
+        contactSelected?.contactAvatar?.toPlatformImageBitmap()?.let { imageBitmap ->
+            Spacer(modifier = Modifier.padding(20.dp))
+            Image(
+                 contentScale = ContentScale.Fit,
+                 modifier = Modifier.fillMaxWidth()
+                     .height(200.dp),
+                 bitmap = imageBitmap,
+                 contentDescription = null
+            )
+        }
     
         }
     }

@@ -15,7 +15,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.dalafiarisamuel",
         artifactId = "contactpicker",
-        version = "0.1.1"
+        version = "0.2.0"
     )
 
     // Configure POM metadata for the published artifact
