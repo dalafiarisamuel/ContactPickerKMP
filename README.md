@@ -58,7 +58,7 @@ for Android and iOS.
             Text("Selected Contact: ${contactSelected?.name}")
    
         // to display contact image, import `toPlatformImageBitmap()` extension function from `com.devtamuno.kmp.contactpicker.extension` package
-        // if there's not contact image, `contactSelected?.contactAvatar` will be null
+        // if there's no contact image, `contactSelected?.contactAvatar` will be null
         
         contactSelected?.contactAvatar?.toPlatformImageBitmap()?.let { imageBitmap ->
             Spacer(modifier = Modifier.padding(20.dp))
