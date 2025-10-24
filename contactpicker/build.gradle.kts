@@ -1,4 +1,7 @@
 import com.vanniktech.maven.publish.SonatypeHost
+import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
+import org.gradle.kotlin.dsl.withType
+import org.gradle.plugins.signing.Sign
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -8,6 +11,21 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.vanniktechMavenPublish)
+    id("signing")
+}
+
+signing {
+    useInMemoryPgpKeys(
+        System.getenv("SIGNING_KEY"),
+        System.getenv("SIGNING_KEY_PASSWORD")
+    )
+    sign(publishing.publications)
+
+    // Temporary workaround, see https://github.com/gradle/gradle/issues/26091#issuecomment-1722947958
+    tasks.withType<AbstractPublishToMaven>().configureEach {
+        val signingTasks = tasks.withType<Sign>()
+        mustRunAfter(signingTasks)
+    }
 }
 
 mavenPublishing {
