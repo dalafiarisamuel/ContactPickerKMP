@@ -1,5 +1,8 @@
 package com.devtamuno.kmp.contactpicker.data
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class Contact(
     val id: String,
     val name: String,
