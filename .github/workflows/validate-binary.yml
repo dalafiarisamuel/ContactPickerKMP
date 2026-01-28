@@ -1,4 +1,4 @@
-name: Check API Compatibility
+name: Check API Binary Compatibility
 
 on:
   pull_request:
