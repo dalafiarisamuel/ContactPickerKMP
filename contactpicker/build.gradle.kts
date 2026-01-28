@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.vanniktechMavenPublish)
+    alias(libs.plugins.kotlinx.binary.compatibility.validator)
     id("signing")
 }
 
@@ -87,6 +88,11 @@ kotlin {
                 freeCompilerArgs.add("-Xexpect-actual-classes")
             }
         }
+    }
+
+    apiValidation {
+        ignoredPackages.add("kotlinx.coroutines.internal")
+        validationDisabled = false
     }
     
     listOf(

@@ -1,0 +1,42 @@
+public final class com/devtamuno/kmp/contactpicker/ContactPickerStateKt {
+	public static final fun rememberContactPickerState (Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/devtamuno/kmp/contactpicker/contract/ContactPickerState;
+}
+
+public abstract interface class com/devtamuno/kmp/contactpicker/contract/ContactPickerState {
+	public abstract fun InitContactPicker (Landroidx/compose/runtime/Composer;I)V
+	public abstract fun getValue ()Landroidx/compose/runtime/State;
+	public abstract fun launchContactPicker ()V
+}
+
+public final class com/devtamuno/kmp/contactpicker/data/Contact {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;[B)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()[B
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;[B)Lcom/devtamuno/kmp/contactpicker/data/Contact;
+	public static synthetic fun copy$default (Lcom/devtamuno/kmp/contactpicker/data/Contact;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ljava/util/List;[BILjava/lang/Object;)Lcom/devtamuno/kmp/contactpicker/data/Contact;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContactAvatar ()[B
+	public final fun getEmail ()Ljava/util/List;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPhoneNumbers ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/devtamuno/kmp/contactpicker/extension/BitmapConverter {
+	public abstract fun bitmapFromBytes ([B)Landroidx/compose/ui/graphics/ImageBitmap;
+}
+
+public final class com/devtamuno/kmp/contactpicker/extension/BitmapConverterKt {
+	public static final fun toPlatformImageBitmap ([B)Landroidx/compose/ui/graphics/ImageBitmap;
+}
+
+public final class com/devtamuno/kmp/contactpicker/extension/ImageExtension_androidKt {
+	public static final fun getBitmapConverter ()Lcom/devtamuno/kmp/contactpicker/extension/BitmapConverter;
+}
+
