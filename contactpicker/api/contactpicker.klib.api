@@ -1,0 +1,55 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <ContactPickerApp:contactpicker>
+abstract interface com.devtamuno.kmp.contactpicker.contract/ContactPickerState { // com.devtamuno.kmp.contactpicker.contract/ContactPickerState|null[0]
+    abstract val value // com.devtamuno.kmp.contactpicker.contract/ContactPickerState.value|{}value[0]
+        abstract fun <get-value>(): androidx.compose.runtime/State<com.devtamuno.kmp.contactpicker.data/Contact?> // com.devtamuno.kmp.contactpicker.contract/ContactPickerState.value.<get-value>|<get-value>(){}[0]
+
+    abstract fun InitContactPicker(androidx.compose.runtime/Composer?, kotlin/Int) // com.devtamuno.kmp.contactpicker.contract/ContactPickerState.InitContactPicker|InitContactPicker(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+    abstract fun launchContactPicker() // com.devtamuno.kmp.contactpicker.contract/ContactPickerState.launchContactPicker|launchContactPicker(){}[0]
+}
+
+abstract interface com.devtamuno.kmp.contactpicker.extension/BitmapConverter { // com.devtamuno.kmp.contactpicker.extension/BitmapConverter|null[0]
+    abstract fun bitmapFromBytes(kotlin/ByteArray): androidx.compose.ui.graphics/ImageBitmap? // com.devtamuno.kmp.contactpicker.extension/BitmapConverter.bitmapFromBytes|bitmapFromBytes(kotlin.ByteArray){}[0]
+}
+
+final class com.devtamuno.kmp.contactpicker.data/Contact { // com.devtamuno.kmp.contactpicker.data/Contact|null[0]
+    constructor <init>(kotlin/String, kotlin/String, kotlin.collections/List<kotlin/String>, kotlin.collections/List<kotlin/String>, kotlin/ByteArray?) // com.devtamuno.kmp.contactpicker.data/Contact.<init>|<init>(kotlin.String;kotlin.String;kotlin.collections.List<kotlin.String>;kotlin.collections.List<kotlin.String>;kotlin.ByteArray?){}[0]
+
+    final val contactAvatar // com.devtamuno.kmp.contactpicker.data/Contact.contactAvatar|{}contactAvatar[0]
+        final fun <get-contactAvatar>(): kotlin/ByteArray? // com.devtamuno.kmp.contactpicker.data/Contact.contactAvatar.<get-contactAvatar>|<get-contactAvatar>(){}[0]
+    final val email // com.devtamuno.kmp.contactpicker.data/Contact.email|{}email[0]
+        final fun <get-email>(): kotlin.collections/List<kotlin/String> // com.devtamuno.kmp.contactpicker.data/Contact.email.<get-email>|<get-email>(){}[0]
+    final val id // com.devtamuno.kmp.contactpicker.data/Contact.id|{}id[0]
+        final fun <get-id>(): kotlin/String // com.devtamuno.kmp.contactpicker.data/Contact.id.<get-id>|<get-id>(){}[0]
+    final val name // com.devtamuno.kmp.contactpicker.data/Contact.name|{}name[0]
+        final fun <get-name>(): kotlin/String // com.devtamuno.kmp.contactpicker.data/Contact.name.<get-name>|<get-name>(){}[0]
+    final val phoneNumbers // com.devtamuno.kmp.contactpicker.data/Contact.phoneNumbers|{}phoneNumbers[0]
+        final fun <get-phoneNumbers>(): kotlin.collections/List<kotlin/String> // com.devtamuno.kmp.contactpicker.data/Contact.phoneNumbers.<get-phoneNumbers>|<get-phoneNumbers>(){}[0]
+
+    final fun component1(): kotlin/String // com.devtamuno.kmp.contactpicker.data/Contact.component1|component1(){}[0]
+    final fun component2(): kotlin/String // com.devtamuno.kmp.contactpicker.data/Contact.component2|component2(){}[0]
+    final fun component3(): kotlin.collections/List<kotlin/String> // com.devtamuno.kmp.contactpicker.data/Contact.component3|component3(){}[0]
+    final fun component4(): kotlin.collections/List<kotlin/String> // com.devtamuno.kmp.contactpicker.data/Contact.component4|component4(){}[0]
+    final fun component5(): kotlin/ByteArray? // com.devtamuno.kmp.contactpicker.data/Contact.component5|component5(){}[0]
+    final fun copy(kotlin/String = ..., kotlin/String = ..., kotlin.collections/List<kotlin/String> = ..., kotlin.collections/List<kotlin/String> = ..., kotlin/ByteArray? = ...): com.devtamuno.kmp.contactpicker.data/Contact // com.devtamuno.kmp.contactpicker.data/Contact.copy|copy(kotlin.String;kotlin.String;kotlin.collections.List<kotlin.String>;kotlin.collections.List<kotlin.String>;kotlin.ByteArray?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.devtamuno.kmp.contactpicker.data/Contact.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.devtamuno.kmp.contactpicker.data/Contact.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.devtamuno.kmp.contactpicker.data/Contact.toString|toString(){}[0]
+}
+
+final val com.devtamuno.kmp.contactpicker.contract/com_devtamuno_kmp_contactpicker_contract_ContactPicker$stableprop // com.devtamuno.kmp.contactpicker.contract/com_devtamuno_kmp_contactpicker_contract_ContactPicker$stableprop|#static{}com_devtamuno_kmp_contactpicker_contract_ContactPicker$stableprop[0]
+final val com.devtamuno.kmp.contactpicker.contract/com_devtamuno_kmp_contactpicker_contract_ContactPickerStateImpl$stableprop // com.devtamuno.kmp.contactpicker.contract/com_devtamuno_kmp_contactpicker_contract_ContactPickerStateImpl$stableprop|#static{}com_devtamuno_kmp_contactpicker_contract_ContactPickerStateImpl$stableprop[0]
+final val com.devtamuno.kmp.contactpicker.data/com_devtamuno_kmp_contactpicker_data_Contact$stableprop // com.devtamuno.kmp.contactpicker.data/com_devtamuno_kmp_contactpicker_data_Contact$stableprop|#static{}com_devtamuno_kmp_contactpicker_data_Contact$stableprop[0]
+
+final fun (kotlin/ByteArray).com.devtamuno.kmp.contactpicker.extension/toPlatformImageBitmap(): androidx.compose.ui.graphics/ImageBitmap? // com.devtamuno.kmp.contactpicker.extension/toPlatformImageBitmap|toPlatformImageBitmap@kotlin.ByteArray(){}[0]
+final fun com.devtamuno.kmp.contactpicker.contract/com_devtamuno_kmp_contactpicker_contract_ContactPicker$stableprop_getter(): kotlin/Int // com.devtamuno.kmp.contactpicker.contract/com_devtamuno_kmp_contactpicker_contract_ContactPicker$stableprop_getter|com_devtamuno_kmp_contactpicker_contract_ContactPicker$stableprop_getter(){}[0]
+final fun com.devtamuno.kmp.contactpicker.contract/com_devtamuno_kmp_contactpicker_contract_ContactPickerStateImpl$stableprop_getter(): kotlin/Int // com.devtamuno.kmp.contactpicker.contract/com_devtamuno_kmp_contactpicker_contract_ContactPickerStateImpl$stableprop_getter|com_devtamuno_kmp_contactpicker_contract_ContactPickerStateImpl$stableprop_getter(){}[0]
+final fun com.devtamuno.kmp.contactpicker.data/com_devtamuno_kmp_contactpicker_data_Contact$stableprop_getter(): kotlin/Int // com.devtamuno.kmp.contactpicker.data/com_devtamuno_kmp_contactpicker_data_Contact$stableprop_getter|com_devtamuno_kmp_contactpicker_data_Contact$stableprop_getter(){}[0]
+final fun com.devtamuno.kmp.contactpicker.extension/getBitmapConverter(): com.devtamuno.kmp.contactpicker.extension/BitmapConverter // com.devtamuno.kmp.contactpicker.extension/getBitmapConverter|getBitmapConverter(){}[0]
+final fun com.devtamuno.kmp.contactpicker/rememberContactPickerState(kotlin/Function1<com.devtamuno.kmp.contactpicker.data/Contact?, kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): com.devtamuno.kmp.contactpicker.contract/ContactPickerState // com.devtamuno.kmp.contactpicker/rememberContactPickerState|rememberContactPickerState(kotlin.Function1<com.devtamuno.kmp.contactpicker.data.Contact?,kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
