@@ -4,6 +4,7 @@ import org.gradle.kotlin.dsl.withType
 import org.gradle.plugins.signing.Sign
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -11,7 +12,6 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.vanniktechMavenPublish)
-    alias(libs.plugins.kotlinx.binary.compatibility.validator)
     id("signing")
 }
 
@@ -90,11 +90,21 @@ kotlin {
         }
     }
 
-    apiValidation {
-        ignoredPackages.add("kotlinx.coroutines.internal")
-        validationDisabled = false
+    @OptIn(ExperimentalAbiValidation::class)
+    abiValidation {
+        enabled.set(true)
+        filters {
+            excluded {
+                byNames.add("com.devtamuno.kmp.contactpicker.contract.ContactPickerStateImpl")
+                byNames.add("com.devtamuno.kmp.contactpicker.contract.ContactPicker")
+            }
+        }
+        klib {
+            enabled = true
+            keepUnsupportedTargets = true
+        }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -111,8 +121,8 @@ kotlin {
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.ui)
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.ui)
             implementation(libs.kotlinx.coroutines.core)
         }
     }

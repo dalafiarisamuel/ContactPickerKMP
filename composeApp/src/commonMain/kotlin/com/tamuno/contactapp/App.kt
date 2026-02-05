@@ -15,13 +15,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.devtamuno.kmp.contactpicker.extension.toPlatformImageBitmap
 import com.devtamuno.kmp.contactpicker.rememberContactPickerState
 import com.mohamedrejeb.calf.permissions.ExperimentalPermissionsApi
 import com.mohamedrejeb.calf.permissions.Permission
 import com.mohamedrejeb.calf.permissions.rememberPermissionState
-import org.jetbrains.compose.ui.tooling.preview.Preview
+
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
