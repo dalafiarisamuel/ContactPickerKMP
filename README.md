@@ -1,4 +1,5 @@
 # ContactPicker [![Maven Central](https://img.shields.io/maven-central/v/io.github.dalafiarisamuel/contactpicker)](https://central.sonatype.com/artifact/io.github.dalafiarisamuel/contactpicker)
+[![Binary Compatibility](https://github.com/dalafiarisamuel/ContactPickerKMP/actions/workflows/workflow.yml/badge.svg?branch=master)](https://github.com/dalafiarisamuel/ContactPickerKMP/actions/workflows/validate-binary.ym)
 
 The ContactPicker is a component written in Kotlin Multiplatform that natively implements selecting a contact
 for Android and iOS.
