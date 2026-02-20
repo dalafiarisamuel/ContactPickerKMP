@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ContactPicker</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+        <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer="defer"></script>
+</head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+            <a class="library-name--link" href="../../../index.html" tabindex="1">
+                    ContactPickerKMP
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+0.2.0        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true"
+                        data-filter=":contactpicker/androidMain">Android</button>
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true"
+                        data-filter=":contactpicker/commonMain">Common</button>
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true"
+                        data-filter=":contactpicker/iosMain">iOS</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":contactpicker/androidMain"
+                                       data-filter=":contactpicker/androidMain"/>
+                                <span class="checkbox--icon"></span>
+                                Android
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":contactpicker/commonMain"
+                                       data-filter=":contactpicker/commonMain"/>
+                                <span class="checkbox--icon"></span>
+                                Common
+                            </label>
+                        </li>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":contactpicker/iosMain"
+                                       data-filter=":contactpicker/iosMain"/>
+                                <span class="checkbox--icon"></span>
+                                iOS
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config='{"defaultSize": 280, "minSize": 200, "maxSize": 400}'>
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    ContactPickerKMP
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="ContactPickerKMP::com.devtamuno.kmp.contactpicker.contract/ContactPicker///PointingToDeclaration//-493232677">
+  <div class="breadcrumbs"><a href="../../../index.html">ContactPickerKMP</a><span class="delimiter">/</span><a href="../index.html">com.devtamuno.kmp.contactpicker.contract</a><span class="delimiter">/</span><span class="current">ContactPicker</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Contact</span><wbr></wbr><span><span>Picker</span></span></h1>
+    <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+      <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain" data-active="" data-toggle=":contactpicker/androidMain">Android</button><button class="platform-bookmark" data-filterable-current=":contactpicker/commonMain" data-filterable-set=":contactpicker/commonMain" data-toggle=":contactpicker/commonMain">Common</button><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":contactpicker/androidMain"><div class="symbol monospace"><span class="token keyword">internal </span><span class="token keyword">actual </span><span class="token keyword">class </span><a href="index.html">ContactPicker</a><span class="source-link-wrapper"><span class="source-link" data-element-type="source-link">(<a href="https://github.com/dalafiarisamuel/ContactPickerKMP/tree/master/contactpicker/src/androidMain/kotlin/com/devtamuno/kmp/contactpicker/contract/ContactPicker.android.kt#L27">source</a>)</span></span></div><p class="paragraph">Android-specific implementation of the <a href="index.html">ContactPicker</a> contract.</p><p class="paragraph">This implementation utilizes the Android <a href="https://developer.android.com/reference/kotlin/android/provider/ContactsContract.html">ContactsContract</a> provider and the Activity Result API (<a href="https://developer.android.com/reference/kotlin/androidx/activity/result/contract/ActivityResultContracts.PickContact.html">ActivityResultContracts.PickContact</a>) to enable secure and seamless contact selection.</p><p class="paragraph">It manages the lifecycle of the activity launcher and performs background queries to the ContentResolver to aggregate contact details like names, multiple phone numbers, emails, and avatars.</p></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/commonMain"><div class="symbol monospace"><span class="token keyword">internal </span><span class="token keyword">expect </span><span class="token keyword">class </span><a href="index.html">ContactPicker</a><span class="source-link-wrapper"><span class="source-link" data-element-type="source-link">(<a href="https://github.com/dalafiarisamuel/ContactPickerKMP/tree/master/contactpicker/src/commonMain/kotlin/com/devtamuno/kmp/contactpicker/contract/ContactPicker.kt#L13">source</a>)</span></span></div><p class="paragraph">An expected class that defines the contract for a platform-specific contact picker.</p><p class="paragraph">This class facilitates the selection of contacts from the device's native address book. Implementations are provided for different platforms (e.g., Android and iOS) to handle the specific APIs and UI flows required by each.</p></div><div class="content sourceset-dependent-content" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">internal </span><span class="token keyword">actual </span><span class="token keyword">class </span><a href="index.html">ContactPicker</a> : <span data-unresolved-link="platform.darwin/NSObject///PointingToDeclaration/">NSObject</span>, <span data-unresolved-link="platform.ContactsUI/CNContactPickerDelegateProtocol///PointingToDeclaration/">CNContactPickerDelegateProtocol</span><span class="source-link-wrapper"><span class="source-link" data-element-type="source-link">(<a href="https://github.com/dalafiarisamuel/ContactPickerKMP/tree/master/contactpicker/src/iosMain/kotlin/com/devtamuno/kmp/contactpicker/contract/ContactPicker.ios.kt#L33">source</a>)</span></span></div><p class="paragraph">iOS-specific implementation of the <a href="index.html">ContactPicker</a> contract.</p><p class="paragraph">This implementation leverages the native <code class="lang-kotlin">CNContactPickerViewController</code> from the ContactsUI framework to provide a familiar and secure contact selection experience for iOS users.</p><p class="paragraph">It acts as both the launcher and the delegate (<code class="lang-kotlin">CNContactPickerDelegateProtocol</code>) to handle lifecycle events and data extraction from the native <span data-unresolved-link="platform.Contacts/CNContact///PointingToDeclaration/">CNContact</span> objects.</p></div>    </div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="tableheader">Constructors</h2>
+        <div class="table"><a data-name="1186680797%2FConstructors%2F-493232677" anchor-label="ContactPicker" id="1186680797%2FConstructors%2F-493232677" data-filterable-set=":contactpicker/commonMain,:contactpicker/androidMain,:contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-togglable="CONSTRUCTOR" data-filterable-current=":contactpicker/commonMain,:contactpicker/androidMain,:contactpicker/iosMain" data-filterable-set=":contactpicker/commonMain,:contactpicker/androidMain,:contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-contact-picker.html"><span>Contact</span><wbr></wbr><span><span>Picker</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1186680797%2FConstructors%2F-493232677"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain" data-active="" data-toggle=":contactpicker/androidMain">Android</button><button class="platform-bookmark" data-filterable-current=":contactpicker/commonMain" data-filterable-set=":contactpicker/commonMain" data-toggle=":contactpicker/commonMain">Common</button><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":contactpicker/androidMain"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div><div class="content sourceset-dependent-content" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="tableheader">Properties</h2>
+        <div class="table"><a data-name="1896801213%2FProperties%2F1270462479" anchor-label="contactPicker" id="1896801213%2FProperties%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="contact-picker.html"><span>contact</span><wbr></wbr><span><span>Picker</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1896801213%2FProperties%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">val </span><a href="contact-picker.html">contactPicker</a><span class="token operator">: </span><span data-unresolved-link="platform.ContactsUI/CNContactPickerViewController///PointingToDeclaration/">CNContactPickerViewController</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="228684334%2FProperties%2F1270462479" anchor-label="debugDescription" id="228684334%2FProperties%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#228684334%2FFunctions%2F1270462479"><span>debug</span><wbr></wbr><span><span>Description</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="228684334%2FProperties%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="index.html#228684334%2FFunctions%2F1270462479">debugDescription</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1692238585%2FProperties%2F1270462479" anchor-label="description" id="-1692238585%2FProperties%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1692238585%2FProperties%2F1270462479"><span><span>description</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1692238585%2FProperties%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="index.html#-1692238585%2FProperties%2F1270462479">description</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-331073687%2FProperties%2F1270462479" anchor-label="hash" id="-331073687%2FProperties%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-331073687%2FProperties%2F1270462479"><span><span>hash</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-331073687%2FProperties%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="index.html#-331073687%2FProperties%2F1270462479">hash</a><span class="token operator">: </span><span data-unresolved-link="platform.darwin/NSUInteger///PointingToDeclaration/">NSUInteger</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1961708977%2FProperties%2F1270462479" anchor-label="onContactSelected" id="-1961708977%2FProperties%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-contact-selected.html"><span>on</span><wbr></wbr><span>Contact</span><wbr></wbr><span><span>Selected</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1961708977%2FProperties%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">lateinit </span><span class="token keyword">var </span><a href="on-contact-selected.html">onContactSelected</a><span class="token operator">: </span><span class="token punctuation">(</span><span data-unresolved-link="com.devtamuno.kmp.contactpicker.data/Contact///PointingToDeclaration/">Contact</span><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-835695199%2FProperties%2F-739598157" anchor-label="picker" id="-835695199%2FProperties%2F-739598157" data-filterable-set=":contactpicker/androidMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="picker.html"><span><span>picker</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-835695199%2FProperties%2F-739598157"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain" data-active="" data-toggle=":contactpicker/androidMain">Android</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/androidMain"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">lateinit </span><span class="token keyword">var </span><a href="picker.html">picker</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/activity/compose/ManagedActivityResultLauncher.html">ManagedActivityResultLauncher</a><span class="token operator">&lt;</span><a href="https://developer.android.com/reference/kotlin/java/lang/Void.html">Void</a><span class="token operator">?</span><span class="token punctuation">, </span><a href="https://developer.android.com/reference/kotlin/android/net/Uri.html">Uri</a><span class="token operator">?</span><span class="token operator">&gt;</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-643518976%2FProperties%2F-739598157" anchor-label="projection" id="-643518976%2FProperties%2F-739598157" data-filterable-set=":contactpicker/androidMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="projection.html"><span><span>projection</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-643518976%2FProperties%2F-739598157"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain" data-active="" data-toggle=":contactpicker/androidMain">Android</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/androidMain"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">val </span><a href="projection.html">projection</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Columns queried from the <a href="https://developer.android.com/reference/kotlin/android/provider/ContactsContract.Contacts.html">ContactsContract.Contacts</a> table.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="487587066%2FProperties%2F1270462479" anchor-label="superclass" id="487587066%2FProperties%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#487587066%2FProperties%2F1270462479"><span><span>superclass</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="487587066%2FProperties%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">val </span><a href="index.html#487587066%2FProperties%2F1270462479">superclass</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/-obj-c-class/index.html">ObjCClass</a><span class="token operator">?</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="-1619767229%2FFunctions%2F1270462479" anchor-label="class" id="-1619767229%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1619767229%2FFunctions%2F1270462479"><span><span>class</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1619767229%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#-1619767229%2FFunctions%2F1270462479"><span class="token function">class</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/-obj-c-class/index.html">ObjCClass</a><span class="token operator">?</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="729460005%2FFunctions%2F1270462479" anchor-label="conformsToProtocol" id="729460005%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#729460005%2FFunctions%2F1270462479"><span>conforms</span><wbr></wbr><span>To</span><wbr></wbr><span><span>Protocol</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="729460005%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#729460005%2FFunctions%2F1270462479"><span class="token function">conformsToProtocol</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">aProtocol<span class="token operator">: </span>objcnames/classes/Protocol?<span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1138266303%2FFunctions%2F1270462479" anchor-label="contactPicker" id="1138266303%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="contact-picker.html"><span>contact</span><wbr></wbr><span><span>Picker</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1138266303%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="contact-picker.html"><span class="token function">contactPicker</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">picker<span class="token operator">: </span><span data-unresolved-link="platform.ContactsUI/CNContactPickerViewController///PointingToDeclaration/">CNContactPickerViewController</span><span class="token punctuation">, </span></span><span class="parameter ">didSelectContact<span class="token operator">: </span><span data-unresolved-link="platform.Contacts/CNContact///PointingToDeclaration/">CNContact</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Invoked by the system when the user selects a specific contact.</p></div><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-655401162%2FFunctions%2F1270462479"><span class="token function">contactPicker</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">picker<span class="token operator">: </span><span data-unresolved-link="platform.ContactsUI/CNContactPickerViewController///PointingToDeclaration/">CNContactPickerViewController</span><span class="token punctuation">, </span></span><span class="parameter ">didSelectContactProperties<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-655401162%2FFunctions%2F1270462479"><span class="token function">contactPicker</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">picker<span class="token operator">: </span><span data-unresolved-link="platform.ContactsUI/CNContactPickerViewController///PointingToDeclaration/">CNContactPickerViewController</span><span class="token punctuation">, </span></span><span class="parameter ">didSelectContacts<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#2077354424%2FFunctions%2F1270462479"><span class="token function">contactPicker</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">picker<span class="token operator">: </span><span data-unresolved-link="platform.ContactsUI/CNContactPickerViewController///PointingToDeclaration/">CNContactPickerViewController</span><span class="token punctuation">, </span></span><span class="parameter ">didSelectContactProperty<span class="token operator">: </span><span data-unresolved-link="platform.Contacts/CNContactProperty///PointingToDeclaration/">CNContactProperty</span></span></span><span class="token punctuation">)</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1322639226%2FFunctions%2F1270462479" anchor-label="contactPickerDidCancel" id="-1322639226%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="contact-picker-did-cancel.html"><span>contact</span><wbr></wbr><span>Picker</span><wbr></wbr><span>Did</span><wbr></wbr><span><span>Cancel</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1322639226%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="contact-picker-did-cancel.html"><span class="token function">contactPickerDidCancel</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">picker<span class="token operator">: </span><span data-unresolved-link="platform.ContactsUI/CNContactPickerViewController///PointingToDeclaration/">CNContactPickerViewController</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Invoked by the system when the user cancels the contact picker.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="719895338%2FFunctions%2F1270462479" anchor-label="copy" id="719895338%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#719895338%2FFunctions%2F1270462479"><span><span>copy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="719895338%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#719895338%2FFunctions%2F1270462479"><span class="token function">copy</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="228684334%2FFunctions%2F1270462479" anchor-label="debugDescription" id="228684334%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#228684334%2FFunctions%2F1270462479"><span>debug</span><wbr></wbr><span><span>Description</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="228684334%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#228684334%2FFunctions%2F1270462479"><span class="token function">debugDescription</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-400237633%2FFunctions%2F1270462479" anchor-label="description" id="-400237633%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-400237633%2FFunctions%2F1270462479"><span><span>description</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-400237633%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#-400237633%2FFunctions%2F1270462479"><span class="token function">description</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-622522961%2FFunctions%2F1270462479" anchor-label="doesNotRecognizeSelector" id="-622522961%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-622522961%2FFunctions%2F1270462479"><span>does</span><wbr></wbr><span>Not</span><wbr></wbr><span>Recognize</span><wbr></wbr><span><span>Selector</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-622522961%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-622522961%2FFunctions%2F1270462479"><span class="token function">doesNotRecognizeSelector</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">aSelector<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/-c-opaque-pointer/index.html">COpaquePointer</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-776372831%2FFunctions%2F1270462479" anchor-label="finalize" id="-776372831%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-776372831%2FFunctions%2F1270462479"><span><span>finalize</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-776372831%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-776372831%2FFunctions%2F1270462479"><span class="token function">finalize</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-684059480%2FFunctions%2F1270462479" anchor-label="findTopMostViewController" id="-684059480%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="find-top-most-view-controller.html"><span>find</span><wbr></wbr><span>Top</span><wbr></wbr><span>Most</span><wbr></wbr><span>View</span><wbr></wbr><span><span>Controller</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-684059480%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">fun </span><a href="find-top-most-view-controller.html"><span class="token function">findTopMostViewController</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">rootViewController<span class="token operator">: </span><span data-unresolved-link="platform.UIKit/UIViewController///PointingToDeclaration/">UIViewController</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="platform.UIKit/UIViewController///PointingToDeclaration/">UIViewController</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Recursively traverses the view controller hierarchy to find the visible controller.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="870119066%2FFunctions%2F1270462479" anchor-label="forwardingTargetForSelector" id="870119066%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#870119066%2FFunctions%2F1270462479"><span>forwarding</span><wbr></wbr><span>Target</span><wbr></wbr><span>For</span><wbr></wbr><span><span>Selector</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="870119066%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#870119066%2FFunctions%2F1270462479"><span class="token function">forwardingTargetForSelector</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">aSelector<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/-c-opaque-pointer/index.html">COpaquePointer</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1855211183%2FFunctions%2F1270462479" anchor-label="forwardInvocation" id="1855211183%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1855211183%2FFunctions%2F1270462479"><span>forward</span><wbr></wbr><span><span>Invocation</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1855211183%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1855211183%2FFunctions%2F1270462479"><span class="token function">forwardInvocation</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">anInvocation<span class="token operator">: </span>objcnames/classes/NSInvocation?<span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1709651765%2FFunctions%2F-739598157" anchor-label="getContactAvatar" id="1709651765%2FFunctions%2F-739598157" data-filterable-set=":contactpicker/androidMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-contact-avatar.html"><span>get</span><wbr></wbr><span>Contact</span><wbr></wbr><span><span>Avatar</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1709651765%2FFunctions%2F-739598157"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain" data-active="" data-toggle=":contactpicker/androidMain">Android</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/androidMain"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">fun </span><a href="get-contact-avatar.html"><span class="token function">getContactAvatar</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token punctuation">, </span></span><span class="parameter ">contactId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Resolves the contact's photo into a <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a>.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1421974683%2FFunctions%2F-739598157" anchor-label="getContactFromUri" id="1421974683%2FFunctions%2F-739598157" data-filterable-set=":contactpicker/androidMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-contact-from-uri.html"><span>get</span><wbr></wbr><span>Contact</span><wbr></wbr><span>From</span><wbr></wbr><span><span>Uri</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1421974683%2FFunctions%2F-739598157"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain" data-active="" data-toggle=":contactpicker/androidMain">Android</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/androidMain"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">fun </span><a href="get-contact-from-uri.html"><span class="token function">getContactFromUri</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token punctuation">, </span></span><span class="parameter ">uri<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/net/Uri.html">Uri</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.devtamuno.kmp.contactpicker.data/-contact/index.html">Contact</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Extracts comprehensive contact data from the provided <a href="https://developer.android.com/reference/kotlin/android/net/Uri.html">Uri</a>.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="5919939%2FFunctions%2F-739598157" anchor-label="getEmail" id="5919939%2FFunctions%2F-739598157" data-filterable-set=":contactpicker/androidMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-email.html"><span>get</span><wbr></wbr><span><span>Email</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="5919939%2FFunctions%2F-739598157"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain" data-active="" data-toggle=":contactpicker/androidMain">Android</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/androidMain"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">fun </span><a href="get-email.html"><span class="token function">getEmail</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token punctuation">, </span></span><span class="parameter ">contactId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Queries the <a href="https://developer.android.com/reference/kotlin/android/provider/ContactsContract.CommonDataKinds.Email.html">ContactsContract.CommonDataKinds.Email</a> table for all addresses associated with a contact.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="911674835%2FFunctions%2F1270462479" anchor-label="getEmailAddress" id="911674835%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-email-address.html"><span>get</span><wbr></wbr><span>Email</span><wbr></wbr><span><span>Address</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="911674835%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">fun </span><a href="get-email-address.html"><span class="token function">getEmailAddress</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">emailAddresses<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Utility to extract string representations of email addresses from <span data-unresolved-link="platform.Contacts/CNLabeledValue///PointingToDeclaration/">CNLabeledValue</span>s.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1852841022%2FFunctions%2F-739598157" anchor-label="getPhoneNumber" id="1852841022%2FFunctions%2F-739598157" data-filterable-set=":contactpicker/androidMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-phone-number.html"><span>get</span><wbr></wbr><span>Phone</span><wbr></wbr><span><span>Number</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1852841022%2FFunctions%2F-739598157"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain" data-active="" data-toggle=":contactpicker/androidMain">Android</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/androidMain"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">fun </span><a href="get-phone-number.html"><span class="token function">getPhoneNumber</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token punctuation">, </span></span><span class="parameter ">contactId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Queries the <a href="https://developer.android.com/reference/kotlin/android/provider/ContactsContract.CommonDataKinds.Phone.html">ContactsContract.CommonDataKinds.Phone</a> table for all numbers associated with a contact.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="857366287%2FFunctions%2F1270462479" anchor-label="getPhoneNumbers" id="857366287%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-phone-numbers.html"><span>get</span><wbr></wbr><span>Phone</span><wbr></wbr><span><span>Numbers</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="857366287%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">fun </span><a href="get-phone-numbers.html"><span class="token function">getPhoneNumbers</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">contactList<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Utility to extract string representations of phone numbers from <span data-unresolved-link="platform.Contacts/CNLabeledValue///PointingToDeclaration/">CNLabeledValue</span>s.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1519286193%2FFunctions%2F1270462479" anchor-label="hash" id="1519286193%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1519286193%2FFunctions%2F1270462479"><span><span>hash</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1519286193%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#1519286193%2FFunctions%2F1270462479"><span class="token function">hash</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="platform.darwin/NSUInteger///PointingToDeclaration/">NSUInteger</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1753155089%2FFunctions%2F1270462479" anchor-label="init" id="-1753155089%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1753155089%2FFunctions%2F1270462479"><span><span>init</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1753155089%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1753155089%2FFunctions%2F1270462479"><span class="token function"><strike>init</strike></span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="platform.darwin/NSObject///PointingToDeclaration/">NSObject</span><span class="token operator">?</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="400700689%2FFunctions%2F1270462479" anchor-label="isEqual" id="400700689%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#400700689%2FFunctions%2F1270462479"><span>is</span><wbr></wbr><span><span>Equal</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="400700689%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#400700689%2FFunctions%2F1270462479"><span class="token function">isEqual</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">object<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1107006214%2FFunctions%2F1270462479" anchor-label="isKindOfClass" id="-1107006214%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1107006214%2FFunctions%2F1270462479"><span>is</span><wbr></wbr><span>Kind</span><wbr></wbr><span>Of</span><wbr></wbr><span><span>Class</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1107006214%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#-1107006214%2FFunctions%2F1270462479"><span class="token function">isKindOfClass</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">aClass<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/-obj-c-class/index.html">ObjCClass</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1261237300%2FFunctions%2F1270462479" anchor-label="isMemberOfClass" id="1261237300%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1261237300%2FFunctions%2F1270462479"><span>is</span><wbr></wbr><span>Member</span><wbr></wbr><span>Of</span><wbr></wbr><span><span>Class</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1261237300%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#1261237300%2FFunctions%2F1270462479"><span class="token function">isMemberOfClass</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">aClass<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/-obj-c-class/index.html">ObjCClass</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="874970199%2FFunctions%2F1270462479" anchor-label="isProxy" id="874970199%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#874970199%2FFunctions%2F1270462479"><span>is</span><wbr></wbr><span><span>Proxy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="874970199%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#874970199%2FFunctions%2F1270462479"><span class="token function">isProxy</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1160998192%2FFunctions%2F-493232677" anchor-label="launchContactPicker" id="-1160998192%2FFunctions%2F-493232677" data-filterable-set=":contactpicker/commonMain,:contactpicker/androidMain,:contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/commonMain,:contactpicker/androidMain,:contactpicker/iosMain" data-filterable-set=":contactpicker/commonMain,:contactpicker/androidMain,:contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="launch-contact-picker.html"><span>launch</span><wbr></wbr><span>Contact</span><wbr></wbr><span><span>Picker</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1160998192%2FFunctions%2F-493232677"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain" data-active="" data-toggle=":contactpicker/androidMain">Android</button><button class="platform-bookmark" data-filterable-current=":contactpicker/commonMain" data-filterable-set=":contactpicker/commonMain" data-toggle=":contactpicker/commonMain">Common</button><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":contactpicker/androidMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">fun </span><a href="launch-contact-picker.html"><span class="token function">launchContactPicker</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Triggers the Android system contact picker UI.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/commonMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">fun </span><a href="launch-contact-picker.html"><span class="token function">launchContactPicker</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Triggers the display of the platform-specific contact picker interface.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">actual </span><span class="token keyword">fun </span><a href="launch-contact-picker.html"><span class="token function">launchContactPicker</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Displays the native iOS contact picker.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1508216455%2FFunctions%2F1270462479" anchor-label="methodForSelector" id="1508216455%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1508216455%2FFunctions%2F1270462479"><span>method</span><wbr></wbr><span>For</span><wbr></wbr><span><span>Selector</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1508216455%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1508216455%2FFunctions%2F1270462479"><span class="token function">methodForSelector</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">aSelector<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/-c-opaque-pointer/index.html">COpaquePointer</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="platform.darwin/IMP///PointingToDeclaration/">IMP</span><span class="token operator">?</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1366135821%2FFunctions%2F1270462479" anchor-label="methodSignatureForSelector" id="1366135821%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1366135821%2FFunctions%2F1270462479"><span>method</span><wbr></wbr><span>Signature</span><wbr></wbr><span>For</span><wbr></wbr><span><span>Selector</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1366135821%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1366135821%2FFunctions%2F1270462479"><span class="token function">methodSignatureForSelector</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">aSelector<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/-c-opaque-pointer/index.html">COpaquePointer</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span>objcnames/classes/NSMethodSignature?<span class="token operator">?</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1810377952%2FFunctions%2F1270462479" anchor-label="mutableCopy" id="1810377952%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1810377952%2FFunctions%2F1270462479"><span>mutable</span><wbr></wbr><span><span>Copy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1810377952%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1810377952%2FFunctions%2F1270462479"><span class="token function">mutableCopy</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="963103057%2FFunctions%2F1270462479" anchor-label="performSelector" id="963103057%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1013303680%2FFunctions%2F1270462479"><span>perform</span><wbr></wbr><span><span>Selector</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="963103057%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#1013303680%2FFunctions%2F1270462479"><span class="token function">performSelector</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">aSelector<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/-c-opaque-pointer/index.html">COpaquePointer</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#367831459%2FFunctions%2F1270462479"><span class="token function">performSelector</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">aSelector<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/-c-opaque-pointer/index.html">COpaquePointer</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">withObject<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#403533126%2FFunctions%2F1270462479"><span class="token function">performSelector</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">aSelector<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/-c-opaque-pointer/index.html">COpaquePointer</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">withObject<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">_withObject<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1124048402%2FFunctions%2F-493232677" anchor-label="RegisterContactPicker" id="-1124048402%2FFunctions%2F-493232677" data-filterable-set=":contactpicker/commonMain,:contactpicker/androidMain,:contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/commonMain,:contactpicker/androidMain,:contactpicker/iosMain" data-filterable-set=":contactpicker/commonMain,:contactpicker/androidMain,:contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-register-contact-picker.html"><span>Register</span><wbr></wbr><span>Contact</span><wbr></wbr><span><span>Picker</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1124048402%2FFunctions%2F-493232677"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain" data-active="" data-toggle=":contactpicker/androidMain">Android</button><button class="platform-bookmark" data-filterable-current=":contactpicker/commonMain" data-filterable-set=":contactpicker/commonMain" data-toggle=":contactpicker/commonMain">Common</button><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-togglable=":contactpicker/androidMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html"><span class="token annotation builtin">Composable</span></a></div></div><span class="token keyword">actual </span><span class="token keyword">fun </span><a href="-register-contact-picker.html"><span class="token function">RegisterContactPicker</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">onContactSelected<span class="token operator">: </span><span class="token punctuation">(</span><a href="../../com.devtamuno.kmp.contactpicker.data/-contact/index.html">Contact</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Registers the <a href="https://developer.android.com/reference/kotlin/androidx/activity/compose/ManagedActivityResultLauncher.html">ManagedActivityResultLauncher</a> within the Compose composition.</p></div></div><div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html"><span class="token annotation builtin">Composable</span></a></div></div><span class="token keyword">expect </span><span class="token keyword">fun </span><a href="-register-contact-picker.html"><span class="token function">RegisterContactPicker</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">onContactSelected<span class="token operator">: </span><span class="token punctuation">(</span><a href="../../com.devtamuno.kmp.contactpicker.data/-contact/index.html">Contact</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Registers the contact picker within the Compose composition.</p></div></div><div class="content sourceset-dependent-content" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/compose/runtime/Composable.html"><span class="token annotation builtin">Composable</span></a></div></div><span class="token keyword">actual </span><span class="token keyword">fun </span><a href="-register-contact-picker.html"><span class="token function">RegisterContactPicker</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">onContactSelected<span class="token operator">: </span><span class="token punctuation">(</span><span data-unresolved-link="com.devtamuno.kmp.contactpicker.data/Contact///PointingToDeclaration/">Contact</span><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Registers the callback to be invoked when a contact is selected.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2027637748%2FFunctions%2F1270462479" anchor-label="respondsToSelector" id="2027637748%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#2027637748%2FFunctions%2F1270462479"><span>responds</span><wbr></wbr><span>To</span><wbr></wbr><span><span>Selector</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2027637748%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#2027637748%2FFunctions%2F1270462479"><span class="token function">respondsToSelector</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">aSelector<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/-c-opaque-pointer/index.html">COpaquePointer</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1687492798%2FFunctions%2F1270462479" anchor-label="superclass" id="-1687492798%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1687492798%2FFunctions%2F1270462479"><span><span>superclass</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1687492798%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">expect </span><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#-1687492798%2FFunctions%2F1270462479"><span class="token function">superclass</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/-obj-c-class/index.html">ObjCClass</a><span class="token operator">?</span></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="389942052%2FFunctions%2F1270462479" anchor-label="toByteArray" id="389942052%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="to-byte-array.html"><span>to</span><wbr></wbr><span>Byte</span><wbr></wbr><span><span>Array</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="389942052%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">fun </span><span data-unresolved-link="platform.Foundation/NSData///PointingToDeclaration/">NSData</span><span class="token punctuation">.</span><a href="to-byte-array.html"><span class="token function">toByteArray</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a></div><div class="brief "><p class="paragraph">Converts native <span data-unresolved-link="platform.Foundation/NSData///PointingToDeclaration/">NSData</span> to a Kotlin <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a>.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-346593436%2FFunctions%2F1270462479" anchor-label="topMostViewController" id="-346593436%2FFunctions%2F1270462479" data-filterable-set=":contactpicker/iosMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="top-most-view-controller.html"><span>top</span><wbr></wbr><span>Most</span><wbr></wbr><span>View</span><wbr></wbr><span><span>Controller</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-346593436%2FFunctions%2F1270462479"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
+                    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">fun </span><span data-unresolved-link="platform.UIKit/UIViewController.Companion///PointingToDeclaration/">UIViewController.Companion</span><span class="token punctuation">.</span><a href="top-most-view-controller.html"><span class="token function">topMostViewController</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="platform.UIKit/UIViewController///PointingToDeclaration/">UIViewController</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Companion extension to find the currently active <span data-unresolved-link="platform.UIKit/UIViewController///PointingToDeclaration/">UIViewController</span> in the view hierarchy.</p></div></div>                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>Built with ❤️ for the KMP community by Samuel Dalafiari</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

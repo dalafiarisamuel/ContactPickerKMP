@@ -1,9 +1,13 @@
+@file:OptIn(ExperimentalAbiValidation::class)
+
 import com.vanniktech.maven.publish.SonatypeHost
 import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
 import org.gradle.kotlin.dsl.withType
 import org.gradle.plugins.signing.Sign
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.dokka.gradle.engine.parameters.KotlinPlatform
+import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
 import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 
 plugins {
@@ -12,7 +16,64 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.vanniktechMavenPublish)
+    alias(libs.plugins.dokka)
     id("signing")
+}
+
+allprojects { version = libs.versions.contact.picker.version.get() }
+
+dokka {
+    moduleName.set("ContactPickerKMP")
+    moduleVersion.set("${project.version}")
+
+    dokkaPublications.configureEach {
+        outputDirectory.set(rootDir.resolve("docs"))
+    }
+
+    dokkaSourceSets {
+        configureEach {
+            reportUndocumented.set(true)
+
+            documentedVisibilities(
+                VisibilityModifier.Public,
+                VisibilityModifier.Internal,
+                VisibilityModifier.Private,
+            )
+
+            sourceLink {
+                localDirectory.set(projectDir.resolve("src"))
+                remoteUrl.set(
+                    uri("https://github.com/dalafiarisamuel/ContactPickerKMP/tree/master/contactpicker/src")
+                )
+                remoteLineSuffix.set("#L")
+            }
+
+            skipEmptyPackages.set(true)
+
+            if (name == "commonMain") {
+                displayName.set("Common")
+                analysisPlatform.set(KotlinPlatform.Common)
+            }
+
+            if (name == "androidMain") {
+                displayName.set("Android")
+                analysisPlatform.set(KotlinPlatform.AndroidJVM)
+                suppress.set(false)
+            }
+
+            if (name == "iosMain") {
+                displayName.set("iOS")
+                // analysisPlatform.set(KotlinPlatform.Native)
+                suppress.set(false)
+            }
+        }
+    }
+
+    dokkaPublications.configureEach {
+        pluginsConfiguration.html {
+            footerMessage.set("Built with ❤️ for the KMP community by Samuel Dalafiari")
+        }
+    }
 }
 
 signing {
@@ -34,7 +95,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.dalafiarisamuel",
         artifactId = "contactpicker",
-        version = "0.2.0"
+        version = "${libs.versions.contact.picker.version.get()}"
     )
 
     // Configure POM metadata for the published artifact
@@ -90,7 +151,7 @@ kotlin {
         }
     }
 
-    @OptIn(ExperimentalAbiValidation::class)
+
     abiValidation {
         enabled.set(true)
         filters {
