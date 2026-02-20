@@ -12,6 +12,9 @@ kotlin = "2.2.0"
 kotlinxCoroutinesCore = "1.10.2"
 calfPermissions = "0.6.1"
 vanniktechMavenPublish = "0.30.0"
+dokka-version="2.1.0"
+contact-picker-version="0.2.0"
+
 
 [libraries]
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "componentsResources" }
@@ -35,3 +38,4 @@ jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 vanniktechMavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktechMavenPublish" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka-version" }
