@@ -16,9 +16,6 @@ class ContactPickerStateTest {
             callbackCalled = true
             callbackValue = contact
         }
-
-        // We can't easily trigger RegisterContactPicker in a unit test without Compose,
-        // but we can test the clear() logic which is independent of the picker registration.
         
         state.clear()
 
