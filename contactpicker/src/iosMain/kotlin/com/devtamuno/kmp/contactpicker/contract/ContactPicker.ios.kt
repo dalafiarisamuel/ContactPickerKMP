@@ -34,6 +34,7 @@ internal actual class ContactPicker : NSObject(), CNContactPickerDelegateProtoco
 
     private val contactPicker = CNContactPickerViewController()
     private lateinit var onContactSelected: (Contact?) -> Unit
+    private lateinit var onContactsSelected: (List<Contact>) -> Unit
 
     /**
      * Registers the callback to be invoked when a contact is selected.
@@ -55,6 +56,24 @@ internal actual class ContactPicker : NSObject(), CNContactPickerDelegateProtoco
      * `CNContactPickerViewController` modally. It also sets this instance as the delegate.
      */
     actual fun launchContactPicker() {
+        contactPicker.setDelegate(this)
+        UIViewController.topMostViewController()?.presentViewController(contactPicker, true, null)
+    }
+
+    /**
+     * Registers the multi-contact picker within the Compose composition.
+     *
+     * @param onContactsSelected Callback invoked with the list of selected [Contact] objects.
+     */
+    @Composable
+    actual fun RegisterMultiContactPicker(onContactsSelected: (List<Contact>) -> Unit) {
+        this.onContactsSelected = onContactsSelected
+    }
+
+    /**
+     * Triggers the display of the platform-specific multi-contact selection interface.
+     */
+    actual fun launchMultiContactPicker() {
         contactPicker.setDelegate(this)
         UIViewController.topMostViewController()?.presentViewController(contactPicker, true, null)
     }
@@ -83,23 +102,45 @@ internal actual class ContactPicker : NSObject(), CNContactPickerDelegateProtoco
         picker: CNContactPickerViewController,
         didSelectContact: CNContact,
     ) {
-        val id = didSelectContact.identifier
-        val name = "${didSelectContact.givenName} ${didSelectContact.familyName}".trim()
-        val phoneNumbers = getPhoneNumbers(didSelectContact.phoneNumbers)
-        val email = getEmailAddress(didSelectContact.emailAddresses)
-        val photoData: ByteArray? = didSelectContact.thumbnailImageData?.toByteArray()
-
-        onContactSelected(
-            Contact(
-                id = id,
-                name = name,
-                phoneNumbers = phoneNumbers,
-                email = email,
-                contactAvatar = photoData
-            )
-        )
+        val contact = mapCNContactToContact(didSelectContact)
+        onContactSelected(contact)
         picker.dismissViewControllerAnimated(true, null)
         contactPicker.delegate = null
+    }
+
+    /**
+     * Invoked by the system when the user selects multiple contacts.
+     *
+     * @param picker The native picker instance.
+     * @param didSelectContacts The list of native contact objects returned by iOS.
+     */
+    override fun contactPicker(
+        picker: CNContactPickerViewController,
+        didSelectContacts: List<*>,
+    ) {
+        val contacts = didSelectContacts
+            .mapNotNull { it as? CNContact }
+            .map { mapCNContactToContact(it) }
+
+        onContactsSelected(contacts)
+        picker.dismissViewControllerAnimated(true, null)
+        contactPicker.delegate = null
+    }
+
+    private fun mapCNContactToContact(cnContact: CNContact): Contact {
+        val id = cnContact.identifier
+        val name = "${cnContact.givenName} ${cnContact.familyName}".trim()
+        val phoneNumbers = getPhoneNumbers(cnContact.phoneNumbers)
+        val email = getEmailAddress(cnContact.emailAddresses)
+        val photoData: ByteArray? = cnContact.thumbnailImageData?.toByteArray()
+
+        return Contact(
+            id = id,
+            name = name,
+            phoneNumbers = phoneNumbers,
+            email = email,
+            contactAvatar = photoData
+        )
     }
 
     /**
