@@ -95,7 +95,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.dalafiarisamuel",
         artifactId = "contactpicker",
-        version = "${libs.versions.contact.picker.version.get()}"
+        version = libs.versions.contact.picker.version.get()
     )
 
     // Configure POM metadata for the published artifact
@@ -182,12 +182,12 @@ kotlin {
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.ui)
-            implementation(compose.materialIconsExtended)
-            implementation(compose.components.resources)
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.foundation)
+            implementation(libs.compose.material)
+            implementation(libs.compose.ui)
+            implementation(libs.material.icons.extended)
+            implementation(libs.compose.components.resources)
             implementation(libs.kotlinx.coroutines.core)
         }
         commonTest.dependencies {
