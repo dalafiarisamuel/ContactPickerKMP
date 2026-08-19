@@ -19,8 +19,9 @@ The project follows a **Layered Architecture** with a clear separation between c
 - Includes custom `equals` and `hashCode` for `ByteArray` (avatar) support.
 
 ### 2. Contract Layer (`com.devtamuno.kmp.contactpicker.contract`)
-- **`ContactPickerState`**: Interface defining the reactive state (`value: State<Contact?>`) and actions (`launchContactPicker()`).
-- **`ContactPicker` (expect/actual)**: Low-level platform bridge for registering and launching the native picker.
+- **`ContactPickerState` / `MultiContactPickerState`**: Interfaces defining reactive state and actions for single and multiple selection. Includes `clear()` for resetting state.
+- **`ContactPicker` (expect/actual)**: Low-level platform bridge.
+    - Android: Separated into `ContactPicker.android.kt` (contract), `CustomMultiContactPicker.android.kt` (UI), and `ContactPickerUtils.android.kt` (low-level queries).
 - **`ContactPickerStateImpl`**: Internal implementation coordinating the state updates.
 
 ### 3. Extension Layer (`com.devtamuno.kmp.contactpicker.extension`)
@@ -51,12 +52,14 @@ The project follows a **Layered Architecture** with a clear separation between c
 
 ### Android
 - Requires `android.permission.READ_CONTACTS`.
-- Uses `rememberLauncherForActivityResult` with `PickContact` contract.
-- Queries `ContentResolver` for detailed contact info (phones, emails, photos).
+- **Single Select**: Uses `PickContact` contract.
+- **Multi Select**: Uses `ACTION_PICK_CONTACTS` on API 37+. On older versions, uses a custom Compose `Dialog` with `LazyColumn` and `Checkbox` because Android lacks a standardized multi-contact picker contract before API 37.
+- Queries `ContentResolver` for detailed contact info. Avatar hydration is deferred for the custom multi-picker to improve scrolling performance.
 
 ### iOS
 - Requires `NSContactsUsageDescription` in `Info.plist`.
 - Uses `CNContactPickerViewController` from the `ContactsUI` framework.
+- Implements `didSelectContact` for single selection and `didSelectContacts` for multiple selection.
 - Uses `memScoped` and `memcpy` for efficient `NSData` to `ByteArray` conversion.
 
 ## Testing Expectations

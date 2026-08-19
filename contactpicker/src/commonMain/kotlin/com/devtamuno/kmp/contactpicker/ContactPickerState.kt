@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.devtamuno.kmp.contactpicker.contract.ContactPickerState
 import com.devtamuno.kmp.contactpicker.contract.ContactPickerStateImpl
+import com.devtamuno.kmp.contactpicker.contract.MultiContactPickerState
+import com.devtamuno.kmp.contactpicker.contract.MultiContactPickerStateImpl
 import com.devtamuno.kmp.contactpicker.data.Contact
 
 /**
@@ -39,4 +41,29 @@ fun rememberContactPickerState(
 @Composable
 private fun rememberMutableContactPickerState(contactPicked: (Contact?) -> Unit): ContactPickerState {
     return remember { ContactPickerStateImpl(contactPicked) }
+}
+
+/**
+ * Creates and remembers a [MultiContactPickerState] instance across recompositions.
+ *
+ * @param contactsPicked An optional callback triggered whenever contacts are selected.
+ * @return A stable [MultiContactPickerState] to manage and trigger multi-contact picking.
+ */
+@Composable
+fun rememberMultiContactPickerState(
+    contactsPicked: (List<Contact>) -> Unit = {},
+): MultiContactPickerState {
+    return rememberMutableMultiContactPickerState(contactsPicked).also {
+        it.InitContactPicker()
+    }
+}
+
+/**
+ * Internal factory function to create and remember the multi-contact state implementation.
+ */
+@Composable
+private fun rememberMutableMultiContactPickerState(
+    contactsPicked: (List<Contact>) -> Unit
+): MultiContactPickerState {
+    return remember { MultiContactPickerStateImpl(contactsPicked) }
 }

@@ -9,7 +9,9 @@
 ## ✨ Features
 
 - 📱 **Native Experience**: Uses `PickContact` contract on Android and `CNContactPickerViewController` on iOS.
-- 🧩 **Compose Multiplatform**: Easy-to-use Composable API with `rememberContactPickerState()`.
+- 🧩 **Compose Multiplatform**: Easy-to-use Composable API with `rememberContactPickerState()` and `rememberMultiContactPickerState()`.
+- ✅ **Multi-Selection Support**: Select multiple contacts at once with platform-native behavior on iOS and a consistent checkbox-based UI on Android.
+- 🧹 **State Management**: Reactive state handling with built-in `clear()` support to reset selections.
 - 🖼️ **Avatar Support**: Retrieve and display contact profile pictures across platforms.
 - 📂 **Rich Data**: Access names, multiple phone numbers, and email addresses.
 - 🚀 **Type-Safe**: Clean, immutable `Contact` data model.
@@ -57,45 +59,38 @@ Add this to your `Info.plist`:
 
 ### 2. Implementation in Compose
 
+#### Single Selection
 ```kotlin
 import com.devtamuno.kmp.contactpicker.rememberContactPickerState
 import com.devtamuno.kmp.contactpicker.extension.toPlatformImageBitmap
 
 @Composable
-fun ContactPickerScreen() {
-    
-    // 1. Initialize the state
-    val contactPicker = rememberContactPickerState { contact ->
-        // Optional callback: triggered when a contact is selected
-        println("Selected: ${contact?.name}")
-    }
-
-    // 2. Observe the selected contact
+fun SinglePicker() {
+    val contactPicker = rememberContactPickerState()
     val selectedContact by contactPicker.value
-    
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        // 3. Trigger the native picker
-        Button(onClick = { contactPicker.launchContactPicker() }) {
-            Text("Pick a Contact")
-        }
 
-        selectedContact?.let { contact ->
-            Text("Name: ${contact.name}")
-            
-            // Display Avatar if available
-            contact.contactAvatar?.toPlatformImageBitmap()?.let { bitmap ->
-                Image(
-                    bitmap = bitmap,
-                    contentDescription = "Contact Avatar",
-                    modifier = Modifier.size(100.dp).clip(CircleShape)
-                )
-            }
-        }
+    Button(onClick = { contactPicker.launchContactPicker() }) {
+        Text("Pick a Contact")
     }
+}
+```
+
+#### Multiple Selection
+```kotlin
+import com.devtamuno.kmp.contactpicker.rememberMultiContactPickerState
+
+@Composable
+fun MultiPicker() {
+    val multiPicker = rememberMultiContactPickerState { contacts ->
+        println("Selected ${contacts.size} contacts")
+    }
+    val selectedContacts by multiPicker.value
+
+    Button(onClick = { multiPicker.launchContactPicker() }) {
+        Text("Pick Multiple Contacts")
+    }
+    
+    Text("Count: ${selectedContacts.size}")
 }
 ```
 

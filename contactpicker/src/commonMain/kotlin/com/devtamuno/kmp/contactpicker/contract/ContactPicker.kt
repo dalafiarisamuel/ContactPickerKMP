@@ -28,8 +28,21 @@ internal expect class ContactPicker() {
     /**
      * Triggers the display of the platform-specific contact picker interface.
      *
-     * Calling this method will navigate the user away from the current app to the system's 
+     * Calling this method will navigate the user away from the current app to the system's
      * contact selection UI.
      */
     fun launchContactPicker()
+
+    /**
+     * Registers the multi-contact picker within the Compose composition.
+     *
+     * @param onContactsSelected Callback invoked with the list of selected [Contact] objects.
+     */
+    @Composable
+    fun RegisterMultiContactPicker(onContactsSelected: (List<Contact>) -> Unit)
+
+    /**
+     * Triggers the display of the platform-specific multi-contact selection interface.
+     */
+    fun launchMultiContactPicker()
 }

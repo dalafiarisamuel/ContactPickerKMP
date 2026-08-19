@@ -60,4 +60,42 @@ internal class ContactPickerStateImpl(
     override fun launchContactPicker() {
         contactPicker.launchContactPicker()
     }
+
+    override fun clear() {
+        _value.value = null
+        contactPicked(null)
+    }
+}
+
+/**
+ * Concrete implementation of [MultiContactPickerState].
+ *
+ * @param contactsPicked A callback that is triggered when contacts are selected.
+ */
+internal class MultiContactPickerStateImpl(
+    private val contactsPicked: (List<Contact>) -> Unit,
+) : MultiContactPickerState {
+
+    private val _value: MutableState<List<Contact>> = mutableStateOf(emptyList())
+
+    override val value: State<List<Contact>> get() = _value
+
+    private val contactPicker = ContactPicker()
+
+    @Composable
+    override fun InitContactPicker() {
+        contactPicker.RegisterMultiContactPicker { selectedContacts ->
+            _value.value = selectedContacts
+            contactsPicked(selectedContacts)
+        }
+    }
+
+    override fun launchContactPicker() {
+        contactPicker.launchMultiContactPicker()
+    }
+
+    override fun clear() {
+        _value.value = emptyList()
+        contactsPicked(emptyList())
+    }
 }
