@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>picker</title>
+    <title>onContactSelected</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
         <script>var pathToRoot = "../../../";</script>
     <script>document.documentElement.classList.replace("no-js", "js");</script>
@@ -47,8 +47,8 @@
 0.2.0        </div>
         <div class="navigation-controls">
         <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
-                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true"
-                        data-filter=":contactpicker/androidMain">Android</button>
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true"
+                        data-filter=":contactpicker/iosMain">iOS</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
                         data-role="dropdown-toggle"
@@ -63,12 +63,12 @@
                             <i class="ui-kit-icon ui-kit-icon_cross"></i>
                         </button>
                     </div>
-                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
                             <label class="checkbox">
-                                <input type="checkbox" class="checkbox--input" id=":contactpicker/androidMain"
-                                       data-filter=":contactpicker/androidMain"/>
+                                <input type="checkbox" class="checkbox--input" id=":contactpicker/iosMain"
+                                       data-filter=":contactpicker/iosMain"/>
                                 <span class="checkbox--icon"></span>
-                                Android
+                                iOS
                             </label>
                         </li>
                 </ul>
@@ -104,14 +104,14 @@
         </nav>
         <div id="resizer" class="resizer" data-item-type="BAR"></div>
         <div id="main" data-item-type="SECTION" role="main">
-<div class="main-content" data-page-type="member" id="content" pageIds="ContactPickerKMP::com.devtamuno.kmp.contactpicker.contract/ContactPicker/picker/#/PointingToDeclaration//-739598157">
-  <div class="breadcrumbs"><a href="../../../index.html">ContactPickerKMP</a><span class="delimiter">/</span><a href="../index.html">com.devtamuno.kmp.contactpicker.contract</a><span class="delimiter">/</span><a href="index.html">ContactPicker</a><span class="delimiter">/</span><span class="current">picker</span></div>
+<div class="main-content" data-page-type="member" id="content" pageIds="ContactPickerKMP::com.devtamuno.kmp.contactpicker.contract/SingleContactPickerDelegate/onContactSelected/#/PointingToDeclaration//1270462479">
+  <div class="breadcrumbs"><a href="../../../index.html">ContactPickerKMP</a><span class="delimiter">/</span><a href="../index.html">com.devtamuno.kmp.contactpicker.contract</a><span class="delimiter">/</span><a href="index.html">SingleContactPickerDelegate</a><span class="delimiter">/</span><span class="current">onContactSelected</span></div>
   <div class="cover ">
-    <h1 class="cover"><span><span>picker</span></span></h1>
+    <h1 class="cover"><span>on</span><wbr></wbr><span>Contact</span><wbr></wbr><span><span>Selected</span></span></h1>
   </div>
   <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
-    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain" data-active="" data-toggle=":contactpicker/androidMain">Android</button></div>
-<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/androidMain"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">lateinit </span><span class="token keyword">var </span><a href="picker.html">picker</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/activity/compose/ManagedActivityResultLauncher.html">ManagedActivityResultLauncher</a><span class="token operator">&lt;</span><a href="https://developer.android.com/reference/kotlin/java/lang/Void.html">Void</a><span class="token operator">?</span><span class="token punctuation">, </span><a href="https://developer.android.com/reference/kotlin/android/net/Uri.html">Uri</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="source-link-wrapper"><span class="source-link" data-element-type="source-link">(<a href="https://github.com/dalafiarisamuel/ContactPickerKMP/tree/master/contactpicker/src/androidMain/kotlin/com/devtamuno/kmp/contactpicker/contract/ContactPicker.android.kt#L19">source</a>)</span></span></div></div>  </div>
+    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain" data-active="" data-toggle=":contactpicker/iosMain">iOS</button></div>
+<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/iosMain"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">val </span><a href="on-contact-selected.html">onContactSelected</a><span class="token operator">: </span><span class="token punctuation">(</span><span data-unresolved-link="com.devtamuno.kmp.contactpicker.data/Contact///PointingToDeclaration/">Contact</span><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="source-link-wrapper"><span class="source-link" data-element-type="source-link">(<a href="https://github.com/dalafiarisamuel/ContactPickerKMP/tree/master/contactpicker/src/iosMain/kotlin/com/devtamuno/kmp/contactpicker/contract/ContactPicker.ios.kt#L95">source</a>)</span></span></div><h4 class="tableheader">Parameters</h4><div class="table"><div class="table-row table-row_content" data-filterable-current=":contactpicker/iosMain" data-filterable-set=":contactpicker/iosMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>on</span><wbr></wbr><span>Contact</span><wbr></wbr><span><span>Selected</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Callback invoked when a contact is selected or the picker is cancelled.</p></div></div></div></div></div></div>  </div>
 </div>
     <div class="footer">
         <div class="footer--container">
