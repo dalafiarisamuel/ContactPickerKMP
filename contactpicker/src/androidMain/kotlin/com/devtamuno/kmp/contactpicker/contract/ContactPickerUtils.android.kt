@@ -21,71 +21,118 @@ internal val contactProjection =
  * Extracts comprehensive contact data from the provided [Uri].
  */
 internal fun getContactFromUri(context: Context, uri: Uri): Contact? {
-    context.contentResolver.query(uri, contactProjection, null, null, null)?.use { cursor ->
-        if (cursor.moveToFirst()) {
-            val idIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID)
-            val nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
-            val hasPhoneIndex = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)
-
-            val id = cursor.getString(idIndex)
-            val name = cursor.getString(nameIndex)
-            val hasPhone = cursor.getInt(hasPhoneIndex) > 0
-            val phoneNumber = if (hasPhone) getPhoneNumber(context, id) else emptyList()
-            val email = getEmail(context, id)
-            val contactAvatar = getContactAvatar(context, id.toLong())
-
-            return Contact(id, name, phoneNumber, email, contactAvatar)
-        }
-    }
-    return null
+    return getContactsByUris(context, listOf(uri)).firstOrNull()
 }
 
 /**
- * Queries the [ContactsContract.CommonDataKinds.Phone] table for all numbers associated with a contact.
+ * Extracts comprehensive contact data from the provided [Uri]s.
  */
-internal fun getPhoneNumber(context: Context, contactId: String): List<String> {
-    val phoneNumbers = mutableListOf<String>()
-    val phoneCursor: Cursor? =
-        context.contentResolver.query(
-            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-            null,
-            "${ContactsContract.CommonDataKinds.Phone.CONTACT_ID} = ?",
-            arrayOf(contactId),
-            null,
+internal fun getContactsByUris(context: Context, uris: List<Uri>): List<Contact> {
+    val contactData = mutableListOf<Triple<String, String, Boolean>>()
+    uris.forEach { uri ->
+        context.contentResolver.query(uri, contactProjection, null, null, null)?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val idIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID)
+                val nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
+                val hasPhoneIndex = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)
+
+                val id = cursor.getString(idIndex)
+                val name = cursor.getString(nameIndex) ?: "Unknown"
+                val hasPhone = cursor.getInt(hasPhoneIndex) > 0
+                contactData.add(Triple(id, name, hasPhone))
+            }
+        }
+    }
+
+    if (contactData.isEmpty()) return emptyList()
+
+    val ids = contactData.map { it.first }
+    val phoneMap = getPhoneNumbers(context, ids)
+    val emailMap = getEmailAddresses(context, ids)
+
+    return contactData.map { (id, name, _) ->
+        Contact(
+            id = id,
+            name = name,
+            phoneNumbers = phoneMap[id] ?: emptyList(),
+            email = emailMap[id] ?: emptyList(),
+            contactAvatar = getContactAvatar(context, id.toLong())
         )
+    }
+}
+
+/**
+ * Queries the [ContactsContract.CommonDataKinds.Phone] table for numbers.
+ * If [contactIds] is null, it fetches all phone numbers.
+ */
+internal fun getPhoneNumbers(
+    context: Context,
+    contactIds: List<String>? = null
+): Map<String, List<String>> {
+    val phoneMap = mutableMapOf<String, MutableList<String>>()
+    val selection = when {
+        contactIds == null -> null
+        contactIds.isEmpty() -> return emptyMap()
+        contactIds.size == 1 -> "${ContactsContract.CommonDataKinds.Phone.CONTACT_ID} = ?"
+        else -> "${ContactsContract.CommonDataKinds.Phone.CONTACT_ID} IN (${contactIds.joinToString(",") { "?" }})"
+    }
+    val selectionArgs = contactIds?.toTypedArray()
+
+    val phoneCursor: Cursor? = context.contentResolver.query(
+        ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+        arrayOf(ContactsContract.CommonDataKinds.Phone.CONTACT_ID, ContactsContract.CommonDataKinds.Phone.NUMBER),
+        selection,
+        selectionArgs,
+        null
+    )
 
     phoneCursor?.use {
+        val idIndex = it.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)
+        val numberIndex = it.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER)
         while (it.moveToNext()) {
-            phoneNumbers.add(
-                it.getString(it.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
-            )
+            val id = it.getString(idIndex)
+            val number = it.getString(numberIndex)
+            phoneMap.getOrPut(id) { mutableListOf() }.add(number)
         }
     }
-    return phoneNumbers
+    return phoneMap
 }
 
 /**
- * Queries the [ContactsContract.CommonDataKinds.Email] table for all addresses associated with a contact.
+ * Queries the [ContactsContract.CommonDataKinds.Email] table for email addresses.
+ * If [contactIds] is null, it fetches all email addresses.
  */
-internal fun getEmail(context: Context, contactId: String): List<String> {
-    val emailAddresses = mutableListOf<String>()
-    val emailCursor: Cursor? =
-        context.contentResolver.query(
-            ContactsContract.CommonDataKinds.Email.CONTENT_URI,
-            null,
-            "${ContactsContract.CommonDataKinds.Email.CONTACT_ID} = ?",
-            arrayOf(contactId),
-            null,
-        )
+internal fun getEmailAddresses(
+    context: Context,
+    contactIds: List<String>? = null
+): Map<String, List<String>> {
+    val emailMap = mutableMapOf<String, MutableList<String>>()
+    val selection = when {
+        contactIds == null -> null
+        contactIds.isEmpty() -> return emptyMap()
+        contactIds.size == 1 -> "${ContactsContract.CommonDataKinds.Email.CONTACT_ID} = ?"
+        else -> "${ContactsContract.CommonDataKinds.Email.CONTACT_ID} IN (${contactIds.joinToString(",") { "?" }})"
+    }
+    val selectionArgs = contactIds?.toTypedArray()
+
+    val emailCursor: Cursor? = context.contentResolver.query(
+        ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+        arrayOf(ContactsContract.CommonDataKinds.Email.CONTACT_ID, ContactsContract.CommonDataKinds.Email.ADDRESS),
+        selection,
+        selectionArgs,
+        null
+    )
 
     emailCursor?.use {
+        val idIndex = it.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Email.CONTACT_ID)
+        val addressIndex = it.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Email.ADDRESS)
         while (it.moveToNext()) {
-            emailAddresses.add(
-                it.getString(it.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Email.ADDRESS))
-            )
+            val id = it.getString(idIndex)
+            val address = it.getString(addressIndex)
+            emailMap.getOrPut(id) { mutableListOf() }.add(address)
         }
     }
-    return emailAddresses
+    return emailMap
 }
 
 /**

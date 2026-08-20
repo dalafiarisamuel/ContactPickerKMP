@@ -47,7 +47,7 @@ internal actual class ContactPicker {
               uris.add(clipData.getItemAt(i).uri)
             }
           }
-          val contacts = uris.mapNotNull { getContactFromUri(context, it) }
+          val contacts = getContactsByUris(context, uris)
           callback(contacts)
         }
       }
