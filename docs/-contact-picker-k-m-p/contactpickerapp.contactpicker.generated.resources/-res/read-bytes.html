@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>picker</title>
+    <title>readBytes</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
         <script>var pathToRoot = "../../../";</script>
     <script>document.documentElement.classList.replace("no-js", "js");</script>
@@ -47,8 +47,8 @@
 0.2.0        </div>
         <div class="navigation-controls">
         <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
-                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true"
-                        data-filter=":contactpicker/androidMain">Android</button>
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true"
+                        data-filter=":contactpicker/commonMain">Common</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
                         data-role="dropdown-toggle"
@@ -63,12 +63,12 @@
                             <i class="ui-kit-icon ui-kit-icon_cross"></i>
                         </button>
                     </div>
-                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
                             <label class="checkbox">
-                                <input type="checkbox" class="checkbox--input" id=":contactpicker/androidMain"
-                                       data-filter=":contactpicker/androidMain"/>
+                                <input type="checkbox" class="checkbox--input" id=":contactpicker/commonMain"
+                                       data-filter=":contactpicker/commonMain"/>
                                 <span class="checkbox--icon"></span>
-                                Android
+                                Common
                             </label>
                         </li>
                 </ul>
@@ -104,14 +104,12 @@
         </nav>
         <div id="resizer" class="resizer" data-item-type="BAR"></div>
         <div id="main" data-item-type="SECTION" role="main">
-<div class="main-content" data-page-type="member" id="content" pageIds="ContactPickerKMP::com.devtamuno.kmp.contactpicker.contract/ContactPicker/picker/#/PointingToDeclaration//-739598157">
-  <div class="breadcrumbs"><a href="../../../index.html">ContactPickerKMP</a><span class="delimiter">/</span><a href="../index.html">com.devtamuno.kmp.contactpicker.contract</a><span class="delimiter">/</span><a href="index.html">ContactPicker</a><span class="delimiter">/</span><span class="current">picker</span></div>
+<div class="main-content" data-page-type="member" id="content" pageIds="ContactPickerKMP::contactpickerapp.contactpicker.generated.resources/Res/readBytes/#kotlin.String/PointingToDeclaration//1527441543">
+  <div class="breadcrumbs"><a href="../../../index.html">ContactPickerKMP</a><span class="delimiter">/</span><a href="../index.html">contactpickerapp.contactpicker.generated.resources</a><span class="delimiter">/</span><a href="index.html">Res</a><span class="delimiter">/</span><span class="current">readBytes</span></div>
   <div class="cover ">
-    <h1 class="cover"><span><span>picker</span></span></h1>
+    <h1 class="cover"><span>read</span><wbr></wbr><span><span>Bytes</span></span></h1>
   </div>
-  <div class="platform-hinted  with-platform-tabs" data-platform-hinted="data-platform-hinted">
-    <div class="platform-bookmarks-row" data-toggle-list="data-toggle-list"><button class="platform-bookmark" data-filterable-current=":contactpicker/androidMain" data-filterable-set=":contactpicker/androidMain" data-active="" data-toggle=":contactpicker/androidMain">Android</button></div>
-<div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/androidMain"><div class="symbol monospace"><span class="token keyword">private </span><span class="token keyword">lateinit </span><span class="token keyword">var </span><a href="picker.html">picker</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/activity/compose/ManagedActivityResultLauncher.html">ManagedActivityResultLauncher</a><span class="token operator">&lt;</span><a href="https://developer.android.com/reference/kotlin/java/lang/Void.html">Void</a><span class="token operator">?</span><span class="token punctuation">, </span><a href="https://developer.android.com/reference/kotlin/android/net/Uri.html">Uri</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="source-link-wrapper"><span class="source-link" data-element-type="source-link">(<a href="https://github.com/dalafiarisamuel/ContactPickerKMP/tree/master/contactpicker/src/androidMain/kotlin/com/devtamuno/kmp/contactpicker/contract/ContactPicker.android.kt#L19">source</a>)</span></span></div></div>  </div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":contactpicker/commonMain"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="read-bytes.html"><span class="token function">readBytes</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">path<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-byte-array/index.html">ByteArray</a></div><p class="paragraph">Reads the content of the resource file at the specified path and returns it as a byte array.</p><p class="paragraph">Example: <code class="lang-kotlin">val bytes = Res.readBytes(&quot;files/key.bin&quot;)</code></p><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph">The content of the file as a byte array.</p></span><h4 class="tableheader">Parameters</h4><div class="table"><div class="table-row table-row_content" data-filterable-current=":contactpicker/commonMain" data-filterable-set=":contactpicker/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>path</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The path of the file to read in the compose resource's directory.</p></div></div></div></div></div></div></div>
 </div>
     <div class="footer">
         <div class="footer--container">
