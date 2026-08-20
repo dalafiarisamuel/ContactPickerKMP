@@ -8,10 +8,10 @@ androidx-lifecycle = "2.9.6"
 componentsResources = "1.10.0"
 compose-plugin = "1.10.0"
 foundation = "1.10.0"
+materialIconsCore = "1.7.3"
 kotlin = "2.2.0"
 kotlinxCoroutinesCore = "1.10.2"
 calfPermissions = "0.6.1"
-materialIconsExtended = "1.7.3"
 vanniktechMavenPublish = "0.30.0"
 dokka-version="2.1.0"
 contact-picker-version="0.2.0"
@@ -31,7 +31,7 @@ compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.re
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-plugin" }
 compose-ui-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "compose-plugin" }
 compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-plugin" }
-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+material-icons-core = { module = "org.jetbrains.compose.material:material-icons-core", version.ref = "materialIconsCore" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

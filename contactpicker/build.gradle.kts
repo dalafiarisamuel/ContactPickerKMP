@@ -185,8 +185,8 @@ kotlin {
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material)
+            implementation(libs.material.icons.core)
             implementation(libs.compose.ui)
-            implementation(libs.material.icons.extended)
             implementation(libs.compose.components.resources)
             implementation(libs.kotlinx.coroutines.core)
         }
