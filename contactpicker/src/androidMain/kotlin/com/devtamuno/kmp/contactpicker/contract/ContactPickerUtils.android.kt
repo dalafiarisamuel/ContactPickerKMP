@@ -29,16 +29,14 @@ internal fun getContactFromUri(context: Context, uri: Uri): Contact? {
  */
 internal fun getContactsByUris(context: Context, uris: List<Uri>): List<Contact> {
     val contactData = mutableListOf<Triple<String, String, Boolean>>()
-    uris.forEach { uri ->
-        context.contentResolver.query(uri, contactProjection, null, null, null)?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                val idIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID)
-                val nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
-                val hasPhoneIndex = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)
+    val contentResolver = context.contentResolver
 
-                val id = cursor.getString(idIndex)
-                val name = cursor.getString(nameIndex) ?: "Unknown"
-                val hasPhone = cursor.getInt(hasPhoneIndex) > 0
+    uris.forEach { uri ->
+        contentResolver.query(uri, contactProjection, null, null, null)?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val id = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID))
+                val name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME)) ?: "Unknown"
+                val hasPhone = cursor.getInt(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0
                 contactData.add(Triple(id, name, hasPhone))
             }
         }
