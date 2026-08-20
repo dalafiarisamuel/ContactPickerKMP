@@ -1,9 +1,27 @@
 public final class com/devtamuno/kmp/contactpicker/ContactPickerStateKt {
 	public static final fun rememberContactPickerState (Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/devtamuno/kmp/contactpicker/contract/ContactPickerState;
+	public static final fun rememberMultiContactPickerState (Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lcom/devtamuno/kmp/contactpicker/contract/MultiContactPickerState;
+}
+
+public final class com/devtamuno/kmp/contactpicker/contract/ComposableSingletons$CustomMultiContactPicker_androidKt {
+	public static final field INSTANCE Lcom/devtamuno/kmp/contactpicker/contract/ComposableSingletons$CustomMultiContactPicker_androidKt;
+	public fun <init> ()V
+	public final fun getLambda$-168661149$contactpicker_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-563652864$contactpicker_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-810356159$contactpicker_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1919747231$contactpicker_release ()Lkotlin/jvm/functions/Function2;
 }
 
 public abstract interface class com/devtamuno/kmp/contactpicker/contract/ContactPickerState {
 	public abstract fun InitContactPicker (Landroidx/compose/runtime/Composer;I)V
+	public abstract fun clear ()V
+	public abstract fun getValue ()Landroidx/compose/runtime/State;
+	public abstract fun launchContactPicker ()V
+}
+
+public abstract interface class com/devtamuno/kmp/contactpicker/contract/MultiContactPickerState {
+	public abstract fun InitContactPicker (Landroidx/compose/runtime/Composer;I)V
+	public abstract fun clear ()V
 	public abstract fun getValue ()Landroidx/compose/runtime/State;
 	public abstract fun launchContactPicker ()V
 }
