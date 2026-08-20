@@ -22,6 +22,7 @@ import platform.UIKit.UINavigationController
 import platform.UIKit.UITabBarController
 import platform.UIKit.UIViewController
 import platform.UIKit.UIWindow
+import platform.UIKit.modalInPresentation
 import platform.darwin.NSObject
 import platform.posix.memcpy
 
@@ -32,9 +33,6 @@ import platform.posix.memcpy
  * framework to provide a familiar and secure contact selection experience for iOS users.
  */
 internal actual class ContactPicker {
-
-    private val singleContactPicker by lazy { CNContactPickerViewController() }
-    private val multiContactPicker by lazy { CNContactPickerViewController() }
 
     private var singleDelegate: CNContactPickerDelegateProtocol? = null
     private var multiDelegate: CNContactPickerDelegateProtocol? = null
@@ -54,7 +52,7 @@ internal actual class ContactPicker {
      * Displays the native iOS contact picker for single selection.
      */
     actual fun launchContactPicker() {
-        val picker = singleContactPicker
+        val picker = CNContactPickerViewController()
         picker.delegate = singleDelegate
         UIViewController.topMostViewController()?.presentViewController(picker, true, null)
     }
@@ -74,8 +72,9 @@ internal actual class ContactPicker {
      * Displays the native iOS contact picker for multiple selection.
      */
     actual fun launchMultiContactPicker() {
-        val picker = multiContactPicker
+        val picker = CNContactPickerViewController()
         picker.delegate = multiDelegate
+        picker.modalInPresentation = true
         UIViewController.topMostViewController()?.presentViewController(picker, true, null)
     }
 }
@@ -106,7 +105,6 @@ private class SingleContactPickerDelegate(
     }
 
     override fun contactPickerDidCancel(picker: CNContactPickerViewController) {
-        onContactSelected(null)
         picker.delegate = null
         picker.dismissViewControllerAnimated(true, null)
     }
@@ -142,7 +140,6 @@ private class MultiContactPickerDelegate(
     }
 
     override fun contactPickerDidCancel(picker: CNContactPickerViewController) {
-        onContactsSelected(emptyList())
         picker.delegate = null
         picker.dismissViewControllerAnimated(true, null)
     }
