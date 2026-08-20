@@ -3,6 +3,9 @@
 package com.devtamuno.kmp.contactpicker.contract
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import com.devtamuno.kmp.contactpicker.data.Contact
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.memScoped
@@ -18,102 +21,113 @@ import platform.UIKit.UIApplication
 import platform.UIKit.UINavigationController
 import platform.UIKit.UITabBarController
 import platform.UIKit.UIViewController
+import platform.UIKit.UIWindow
 import platform.darwin.NSObject
 import platform.posix.memcpy
 
 /**
  * iOS-specific implementation of the [ContactPicker] contract.
  *
- * This implementation leverages the native `CNContactPickerViewController` from the ContactsUI 
+ * This implementation leverages the native `CNContactPickerViewController` from the ContactsUI
  * framework to provide a familiar and secure contact selection experience for iOS users.
- * 
- * It acts as both the launcher and the delegate (`CNContactPickerDelegateProtocol`) to handle 
- * lifecycle events and data extraction from the native [CNContact] objects.
  */
-internal actual class ContactPicker : NSObject(), CNContactPickerDelegateProtocol {
+internal actual class ContactPicker {
 
-    private val contactPicker = CNContactPickerViewController()
-    private lateinit var onContactSelected: (Contact?) -> Unit
-    private lateinit var onContactsSelected: (List<Contact>) -> Unit
+    private val singleContactPicker by lazy { CNContactPickerViewController() }
+    private val multiContactPicker by lazy { CNContactPickerViewController() }
+
+    private var singleDelegate: CNContactPickerDelegateProtocol? = null
+    private var multiDelegate: CNContactPickerDelegateProtocol? = null
 
     /**
-     * Registers the callback to be invoked when a contact is selected.
-     * 
-     * In the iOS implementation, this stores the provided [onContactSelected] lambda
-     * which will be triggered by the delegate methods once the user interacts with the picker.
-     *
-     * @param onContactSelected Callback invoked with the selected [Contact] or `null` if cancelled.
+     * Registers the callback for single contact selection.
      */
     @Composable
     actual fun RegisterContactPicker(onContactSelected: (Contact?) -> Unit) {
-        this.onContactSelected = onContactSelected
+        val callback by rememberUpdatedState(onContactSelected)
+        remember {
+            singleDelegate = SingleContactPickerDelegate { callback(it) }
+        }
     }
 
     /**
-     * Displays the native iOS contact picker.
-     * 
-     * This method resolves the current top-most [UIViewController] and presents the 
-     * `CNContactPickerViewController` modally. It also sets this instance as the delegate.
+     * Displays the native iOS contact picker for single selection.
      */
     actual fun launchContactPicker() {
-        contactPicker.setDelegate(this)
-        UIViewController.topMostViewController()?.presentViewController(contactPicker, true, null)
+        val picker = singleContactPicker
+        picker.delegate = singleDelegate
+        UIViewController.topMostViewController()?.presentViewController(picker, true, null)
     }
 
     /**
-     * Registers the multi-contact picker within the Compose composition.
-     *
-     * @param onContactsSelected Callback invoked with the list of selected [Contact] objects.
+     * Registers the callback for multiple contact selection.
      */
     @Composable
     actual fun RegisterMultiContactPicker(onContactsSelected: (List<Contact>) -> Unit) {
-        this.onContactsSelected = onContactsSelected
+        val callback by rememberUpdatedState(onContactsSelected)
+        remember {
+            multiDelegate = MultiContactPickerDelegate { callback(it) }
+        }
     }
 
     /**
-     * Triggers the display of the platform-specific multi-contact selection interface.
+     * Displays the native iOS contact picker for multiple selection.
      */
     actual fun launchMultiContactPicker() {
-        contactPicker.setDelegate(this)
-        UIViewController.topMostViewController()?.presentViewController(contactPicker, true, null)
+        val picker = multiContactPicker
+        picker.delegate = multiDelegate
+        UIViewController.topMostViewController()?.presentViewController(picker, true, null)
     }
+}
 
-    /**
-     * Invoked by the system when the user cancels the contact picker.
-     * 
-     * Cleans up the delegate reference and notifies the observer with `null`.
-     */
-    override fun contactPickerDidCancel(picker: CNContactPickerViewController) {
-        onContactSelected(null)
-        contactPicker.delegate = null
-        picker.dismissViewControllerAnimated(true, null)
-    }
+/**
+ * Delegate for single contact selection.
+ *
+ * This delegate implements the [CNContactPickerDelegateProtocol] to handle the selection
+ * of a single contact from the native iOS contact picker.
+ *
+ * **Note:** It only overrides the `contactPicker(_:didSelectContact:)` method. This is crucial
+ * because providing an implementation for `contactPicker(_:didSelectContacts:)` (plural)
+ * would cause the iOS picker to switch to multi-selection mode, even if only one contact is desired.
+ *
+ * @param onContactSelected Callback invoked when a contact is selected or the picker is cancelled.
+ */
+private class SingleContactPickerDelegate(
+    private val onContactSelected: (Contact?) -> Unit,
+) : NSObject(), CNContactPickerDelegateProtocol {
 
-    /**
-     * Invoked by the system when the user selects a specific contact.
-     * 
-     * Maps the native [CNContact] properties (identifier, names, phones, emails, and thumbnail) 
-     * to the cross-platform [Contact] data model.
-     * 
-     * @param picker The native picker instance.
-     * @param didSelectContact The native contact object returned by iOS.
-     */
     override fun contactPicker(
         picker: CNContactPickerViewController,
         didSelectContact: CNContact,
     ) {
-        val contact = mapCNContactToContact(didSelectContact)
-        onContactSelected(contact)
+        onContactSelected(mapCNContactToContact(didSelectContact))
+        picker.delegate = null
         picker.dismissViewControllerAnimated(true, null)
-        contactPicker.delegate = null
     }
 
-    /**
-     * Invoked by the system when the user selects multiple contacts.
-     *
-     * @param picker The native picker instance.
-     * @param didSelectContacts The list of native contact objects returned by iOS.
-     */
+    override fun contactPickerDidCancel(picker: CNContactPickerViewController) {
+        onContactSelected(null)
+        picker.delegate = null
+        picker.dismissViewControllerAnimated(true, null)
+    }
+}
+
+/**
+ * Delegate for multiple contact selection.
+ *
+ * This delegate implements the [CNContactPickerDelegateProtocol] to handle the selection
+ * of multiple contacts from the native iOS contact picker.
+ *
+ * By implementing the `contactPicker(_:didSelectContacts:)` method, the iOS contact picker
+ * automatically enables its multi-selection user interface, allowing users to select
+ * multiple contacts before finishing.
+ *
+ * @param onContactsSelected Callback invoked with the list of selected contacts.
+ */
+private class MultiContactPickerDelegate(
+    private val onContactsSelected: (List<Contact>) -> Unit,
+) : NSObject(), CNContactPickerDelegateProtocol {
+
     override fun contactPicker(
         picker: CNContactPickerViewController,
         didSelectContacts: List<*>,
@@ -123,92 +137,89 @@ internal actual class ContactPicker : NSObject(), CNContactPickerDelegateProtoco
             .map { mapCNContactToContact(it) }
 
         onContactsSelected(contacts)
+        picker.delegate = null
         picker.dismissViewControllerAnimated(true, null)
-        contactPicker.delegate = null
     }
 
-    private fun mapCNContactToContact(cnContact: CNContact): Contact {
-        val id = cnContact.identifier
-        val name = "${cnContact.givenName} ${cnContact.familyName}".trim()
-        val phoneNumbers = getPhoneNumbers(cnContact.phoneNumbers)
-        val email = getEmailAddress(cnContact.emailAddresses)
-        val photoData: ByteArray? = cnContact.thumbnailImageData?.toByteArray()
-
-        return Contact(
-            id = id,
-            name = name,
-            phoneNumbers = phoneNumbers,
-            email = email,
-            contactAvatar = photoData
-        )
+    override fun contactPickerDidCancel(picker: CNContactPickerViewController) {
+        onContactsSelected(emptyList())
+        picker.delegate = null
+        picker.dismissViewControllerAnimated(true, null)
     }
+}
 
-    /**
-     * Utility to extract string representations of phone numbers from [CNLabeledValue]s.
-     * 
-     * @param contactList A list of [CNLabeledValue] objects where values are [CNPhoneNumber].
-     * @return A list of formatted phone number strings.
-     */
-    private fun getPhoneNumbers(contactList: List<*>): List<String> {
-        return contactList
-            .mapNotNull { (it as? CNLabeledValue)?.value as? CNPhoneNumber }
-            .map { it.stringValue }
+private fun mapCNContactToContact(cnContact: CNContact): Contact {
+    val id = cnContact.identifier
+    val name = "${cnContact.givenName} ${cnContact.familyName}".trim()
+    val phoneNumbers = getPhoneNumbers(cnContact.phoneNumbers)
+    val email = getEmailAddress(cnContact.emailAddresses)
+    val photoData: ByteArray? = cnContact.thumbnailImageData?.toByteArray()
+
+    return Contact(
+        id = id,
+        name = name,
+        phoneNumbers = phoneNumbers,
+        email = email,
+        contactAvatar = photoData
+    )
+}
+
+private fun getPhoneNumbers(contactList: List<*>): List<String> {
+    return contactList
+        .mapNotNull { (it as? CNLabeledValue)?.value as? CNPhoneNumber }
+        .map { it.stringValue }
+}
+
+private fun getEmailAddress(emailAddresses: List<*>): List<String> {
+    return emailAddresses
+        .mapNotNull { (it as? CNLabeledValue)?.value as? NSString }
+        .map { it.toString() }
+}
+
+private fun NSData.toByteArray(): ByteArray {
+    val bytes = ByteArray(this.length.toInt())
+    memScoped {
+        memcpy(bytes.refTo(0), this@toByteArray.bytes, this@toByteArray.length)
     }
+    return bytes
+}
 
-    /**
-     * Utility to extract string representations of email addresses from [CNLabeledValue]s.
-     * 
-     * @param emailAddresses A list of [CNLabeledValue] objects where values are [NSString].
-     * @return A list of email address strings.
-     */
-    private fun getEmailAddress(emailAddresses: List<*>): List<String> {
-        return emailAddresses
-            .mapNotNull { (it as? CNLabeledValue)?.value as? NSString }
-            .map { it.toString() }
-    }
+private fun UIViewController.Companion.topMostViewController(): UIViewController? {
+    val sharedApp = UIApplication.sharedApplication
+    val window = sharedApp.keyWindow ?: sharedApp.windows
+        .mapNotNull { it as? UIWindow }
+        .firstOrNull { it.isKeyWindow() }
+        ?: sharedApp.windows.firstOrNull() as? UIWindow
 
-    /**
-     * Converts native [NSData] to a Kotlin [ByteArray].
-     * 
-     * Uses [memScoped] and [memcpy] for high-performance memory copying from the 
-     * Objective-C pointer to the Kotlin managed array.
-     */
-    private fun NSData.toByteArray(): ByteArray {
-        val bytes = ByteArray(this.length.toInt())
-        memScoped {
-            memcpy(bytes.refTo(0), this@toByteArray.bytes, this@toByteArray.length)
-        }
-        return bytes
-    }
+    return findTopMostViewController(window?.rootViewController)
+}
 
-    /**
-     * Companion extension to find the currently active [UIViewController] in the view hierarchy.
-     */
-    private fun UIViewController.Companion.topMostViewController(): UIViewController? {
-        return findTopMostViewController(UIApplication.sharedApplication.keyWindow?.rootViewController)
-    }
-
-    /**
-     * Recursively traverses the view controller hierarchy to find the visible controller.
-     * 
-     * It handles:
-     * - Presented View Controllers (Modals)
-     * - [UINavigationController] (Visible Child)
-     * - [UITabBarController] (Selected Child)
-     * 
-     * @param rootViewController The starting point for the search, typically the key window's root.
-     * @return The top-most visible [UIViewController].
-     */
-    private fun findTopMostViewController(rootViewController: UIViewController?): UIViewController? {
-        val presented = rootViewController?.presentedViewController
+private fun findTopMostViewController(root: UIViewController?): UIViewController? {
+    var current = root
+    while (current != null) {
+        val presented = current.presentedViewController
         if (presented != null) {
-            return findTopMostViewController(presented)
+            current = presented
+            continue
         }
 
-        return when (rootViewController) {
-            is UINavigationController -> findTopMostViewController(rootViewController.visibleViewController)
-            is UITabBarController -> findTopMostViewController(rootViewController.selectedViewController)
-            else -> rootViewController
+        if (current is UINavigationController) {
+            val visible = current.visibleViewController
+            if (visible != null && visible != current) {
+                current = visible
+                continue
+            }
         }
+
+        if (current is UITabBarController) {
+            val selected = current.selectedViewController
+            if (selected != null && selected != current) {
+                current = selected
+                continue
+            }
+        }
+
+        break
     }
+    return current
 }
