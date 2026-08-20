@@ -79,6 +79,10 @@ fun SinglePicker() {
     Button(onClick = { contactPicker.launchContactPicker() }) {
         Text("Pick a Contact")
     }
+
+    Button(onClick = { contactPicker.clear() }) {
+        Text("Clear Selection")
+    }
 }
 ```
 
@@ -96,7 +100,11 @@ fun MultiPicker() {
     Button(onClick = { multiPicker.launchContactPicker() }) {
         Text("Pick Multiple Contacts")
     }
-    
+
+    Button(onClick = { multiPicker.clear() }) {
+        Text("Clear Selection")
+    }
+
     Text("Count: ${selectedContacts.size}")
 }
 ```
