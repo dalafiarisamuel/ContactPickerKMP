@@ -11,13 +11,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
@@ -28,10 +29,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devtamuno.kmp.contactpicker.data.Contact
@@ -63,43 +67,50 @@ fun App() {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
                     .safeContentPadding()
-                    .padding(16.dp),
+                    .padding(horizontal = 8.dp, vertical = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(24.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = "KMP Contact Picker",
-                    style = MaterialTheme.typography.h4,
-                    fontWeight = FontWeight.Bold
+                    text = "Contact Picker",
+                    style = MaterialTheme.typography.h5,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(vertical = 8.dp)
                 )
 
                 // Selection Buttons
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Button(
                             modifier = Modifier.weight(1f),
+                            shape = CircleShape,
                             onClick = {
                                 runWithPermission(readContacts) {
                                     contactPicker.launchContactPicker()
                                 }
                             }
                         ) {
-                            Text("Single Pick")
+                            Text("Single Pick", style = MaterialTheme.typography.button)
                         }
 
                         Button(
                             modifier = Modifier.weight(1f),
+                            shape = CircleShape,
                             onClick = {
                                 runWithPermission(readContacts) {
                                     multiContactPicker.launchContactPicker()
                                 }
                             }
                         ) {
-                            Text("Multi Pick")
+                            Text("Multi Pick", style = MaterialTheme.typography.button)
                         }
                     }
 
@@ -110,72 +121,84 @@ fun App() {
                                 contactPicker.clear()
                                 multiContactPicker.clear()
                             },
+                            shape = CircleShape,
                             colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.LightGray.copy(alpha = 0.3f)
+                                backgroundColor = Color.LightGray.copy(alpha = 0.2f)
                             ),
                             elevation = ButtonDefaults.elevation(0.dp, 0.dp)
                         ) {
-                            Text("Clear All Selections", color = Color.DarkGray)
+                            Text("Clear Selections", color = Color.DarkGray)
                         }
                     }
                 }
 
-                Divider()
+                Divider(modifier = Modifier.alpha(0.3f))
 
                 // Single Selection Display
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.Start
                 ) {
                     Text(
-                        text = "Single Selection",
-                        style = MaterialTheme.typography.subtitle1,
-                        color = Color.Gray
+                        text = "SINGLE SELECTION",
+                        style = MaterialTheme.typography.overline,
+                        color = Color.Gray,
+                        modifier = Modifier.padding(start = 12.dp)
                     )
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
 
                     if (contactSelected != null) {
                         ContactProfile(contact = contactSelected!!)
                     } else {
-                        Text("No contact selected", color = Color.LightGray)
+                        EmptyState("No contact selected")
                     }
                 }
 
-                Divider()
+                Divider(modifier = Modifier.alpha(0.3f))
 
                 // Multi Selection Display
                 Column(modifier = Modifier.fillMaxWidth()) {
                     Text(
-                        text = "Multi Selection (${multiContactsSelected.size})",
-                        style = MaterialTheme.typography.subtitle1,
+                        text = "MULTI SELECTION (${multiContactsSelected.size})",
+                        style = MaterialTheme.typography.overline,
                         color = Color.Gray,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                        modifier = Modifier.padding(start = 12.dp)
                     )
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(4.dp))
 
                     if (multiContactsSelected.isNotEmpty()) {
-                        LazyRow(
+                        Column(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            contentPadding = PaddingValues(horizontal = 8.dp)
                         ) {
-                            items(multiContactsSelected) { contact ->
-                                ContactAvatar(
-                                    contact = contact,
-                                    size = 56.dp
-                                )
+                            multiContactsSelected.forEachIndexed { index, contact ->
+                                ContactProfile(contact = contact)
+                                if (index < multiContactsSelected.lastIndex) {
+                                    Divider(
+                                        modifier = Modifier
+                                            .padding(start = 64.dp)
+                                            .alpha(0.15f)
+                                    )
+                                }
                             }
                         }
                     } else {
-                        Text(
-                            "No contacts selected",
-                            color = Color.LightGray,
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        )
+                        EmptyState("No contacts selected")
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun EmptyState(message: String) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(message, color = Color.LightGray.copy(alpha = 0.8f), style = MaterialTheme.typography.caption)
     }
 }
 
@@ -185,20 +208,22 @@ private fun ContactProfile(contact: Contact) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .heightIn(min = 56.dp)
+            .padding(horizontal = 12.dp)
     ) {
-        ContactAvatar(contact = contact, size = 80.dp)
-        Spacer(modifier = Modifier.width(16.dp))
-        Column {
+        ContactAvatar(contact = contact, size = 40.dp)
+        Spacer(modifier = Modifier.width(12.dp))
+        Column(verticalArrangement = Arrangement.Center) {
             Text(
                 text = contact.name,
-                style = MaterialTheme.typography.h6,
-                fontWeight = FontWeight.Medium
+                style = MaterialTheme.typography.body1,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colors.onSurface
             )
             if (contact.phoneNumbers.isNotEmpty()) {
                 Text(
                     text = contact.phoneNumbers.first(),
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.caption,
                     color = Color.Gray
                 )
             }
@@ -223,17 +248,18 @@ private fun ContactAvatar(
             contentScale = ContentScale.Crop
         )
     } else {
+        val initials = contact.name.take(1).uppercase()
         Box(
             modifier = modifier
                 .size(size)
                 .clip(CircleShape)
-                .background(Color.LightGray),
+                .background(Color(0xFF6200EE).copy(alpha = 0.1f)),
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = contact.name.firstOrNull()?.toString()?.uppercase() ?: "?",
-                color = Color.White,
-                fontSize = (size.value * 0.4f).sp,
+                text = initials.ifEmpty { "?" },
+                color = Color(0xFF6200EE),
+                fontSize = (size.value * 0.35f).sp,
                 fontWeight = FontWeight.Bold
             )
         }
