@@ -1,4 +1,4 @@
-# ContactPicker 📇
+# ContactPicker
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.dalafiarisamuel/contactpicker)](https://central.sonatype.com/artifact/io.github.dalafiarisamuel/contactpicker)
 [![Binary Compatibility](https://github.com/dalafiarisamuel/ContactPickerKMP/actions/workflows/validate-binary.yml/badge.svg?branch=master)](https://github.com/dalafiarisamuel/ContactPickerKMP/actions/workflows/validate-binary.yml)
@@ -6,23 +6,29 @@
 
 **ContactPicker** is a Kotlin Multiplatform (KMP) library that provides a native contact selection experience for Android and iOS using Jetpack Compose Multiplatform.
 
-## ✨ Features
+## Features
 
-- 📱 **Native Experience**: Uses `PickContact` contract on Android and `CNContactPickerViewController` on iOS.
-- 🧩 **Compose Multiplatform**: Easy-to-use Composable API with `rememberContactPickerState()` and `rememberMultiContactPickerState()`.
-- ✅ **Multi-Selection Support**: Select multiple contacts at once with platform-native behavior on iOS and a consistent checkbox-based UI on Android.
-- 🧹 **State Management**: Reactive state handling with built-in `clear()` support to reset selections.
-- 🖼️ **Avatar Support**: Retrieve and display contact profile pictures across platforms.
-- 📂 **Rich Data**: Access names, multiple phone numbers, and email addresses.
-- 🚀 **Type-Safe**: Clean, immutable `Contact` data model.
+- **Native Experience**: Uses `PickContact` contract on Android and `CNContactPickerViewController` on iOS.
+- **Compose Multiplatform**: Easy-to-use Composable API with `rememberContactPickerState()` and `rememberMultiContactPickerState()`.
+- **Multi-Selection Support**: Select multiple contacts at once with platform-native behavior on iOS and a consistent checkbox-based UI on Android.
+- **State Management**: Reactive state handling with built-in `clear()` support to reset selections.
+- **Avatar Support**: Retrieve and display contact profile pictures across platforms.
+- **Rich Data**: Access names, multiple phone numbers, and email addresses.
+- **Type-Safe**: Clean, immutable `Contact` data model.
 
-## 📚 Documentation
+## Screenshots
+
+| Android | iOS |
+| :---: | :---: |
+| ![Android Implementation](images/android_impl.png) | ![iOS Implementation](images/ios_impl.png) |
+
+## Documentation
 
 Full API documentation and guides are available at: [https://dalafiarisamuel.github.io/ContactPickerKMP/](https://dalafiarisamuel.github.io/ContactPickerKMP/)
 
 ---
 
-## 🚀 Installation
+## Installation
 
 Add the dependency to your `commonMain` source set in your `build.gradle.kts` file:
 
@@ -38,7 +44,7 @@ kotlin {
 
 ---
 
-## 🛠 Usage
+## Usage
 
 ### 1. Platform Permissions
 
@@ -96,10 +102,10 @@ fun MultiPicker() {
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! If you find a bug or have a feature request, please open an [issue](https://github.com/dalafiarisamuel/ContactPickerKMP/issues) or submit a pull request.
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
