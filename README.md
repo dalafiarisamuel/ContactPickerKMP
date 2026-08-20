@@ -20,8 +20,8 @@
 
 | Android | iOS |
 | :---: | :---: |
-| ![Android Implementation](images/android_impl.png) | ![iOS Implementation](images/ios_impl.png) |
-| ![Android Multi-Selection](images/android_multi-selection.png) | ![iOS Multi-Selection](images/ios_multi_selection.png) |
+| <img src="images/android_impl.png" width="50%" /> | <img src="images/ios_impl.png" width="50%" /> |
+| <img src="images/android_multi-selection.png" width="50%" /> | <img src="images/ios_multi_selection.png" width="50%" /> |
 
 ## Documentation
 
