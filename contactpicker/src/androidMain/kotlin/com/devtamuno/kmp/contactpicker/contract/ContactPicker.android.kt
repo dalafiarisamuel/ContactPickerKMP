@@ -9,7 +9,19 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
+import android.provider.ContactsContract
 import com.devtamuno.kmp.contactpicker.data.Contact
+import kotlinx.coroutines.launch
+
+private const val ACTION_PICK_CONTACTS = "android.provider.action.PICK_CONTACTS"
+private const val EXTRA_PICK_CONTACTS_REQUESTED_DATA_FIELDS =
+    "android.provider.extra.PICK_CONTACTS_REQUESTED_DATA_FIELDS"
+private const val EXTRA_USE_SYSTEM_CONTACTS_PICKER =
+    "android.provider.extra.USE_SYSTEM_CONTACTS_PICKER"
+private const val EXTRA_PICK_CONTACTS_SELECTION_LIMIT =
+    "android.provider.extra.PICK_CONTACTS_SELECTION_LIMIT"
+private const val EXTRA_PICK_CONTACTS_MATCH_ALL_DATA_FIELDS =
+    "android.provider.extra.PICK_CONTACTS_MATCH_ALL_DATA_FIELDS"
 
 /**
  * Android-specific implementation of the [ContactPicker] contract.
@@ -36,19 +48,27 @@ internal actual class ContactPicker {
   actual fun RegisterMultiContactPicker(onContactsSelected: (List<Contact>) -> Unit) {
     val callback by rememberUpdatedState(onContactsSelected)
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
     multiPicker =
       rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == android.app.Activity.RESULT_OK) {
-          val uris = mutableListOf<Uri>()
-          result.data?.data?.let { uris.add(it) }
-          result.data?.clipData?.let { clipData ->
-            for (i in 0 until clipData.itemCount) {
-              uris.add(clipData.getItemAt(i).uri)
+          val data = result.data
+          if (Build.VERSION.SDK_INT >= 37 && data?.data != null) {
+            coroutineScope.launch {
+              callback(processContactPickerSessionUri(context, data.data!!))
             }
+          } else {
+            val uris = mutableListOf<Uri>()
+            data?.data?.let { uris.add(it) }
+            data?.clipData?.let { clipData ->
+              for (i in 0 until clipData.itemCount) {
+                uris.add(clipData.getItemAt(i).uri)
+              }
+            }
+            val contacts = getContactsByUris(context, uris)
+            callback(contacts)
           }
-          val contacts = getContactsByUris(context, uris)
-          callback(contacts)
         }
       }
 
@@ -82,8 +102,19 @@ internal actual class ContactPicker {
 
   actual fun launchMultiContactPicker() {
     if (Build.VERSION.SDK_INT >= 37) {
-      val intent = Intent("android.intent.action.PICK_CONTACTS").apply {
+      val intent = Intent(ACTION_PICK_CONTACTS).apply {
+        putExtra(EXTRA_USE_SYSTEM_CONTACTS_PICKER, true)
         putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        // Optional: putExtra(EXTRA_PICK_CONTACTS_SELECTION_LIMIT, 20)
+        putExtra(EXTRA_PICK_CONTACTS_MATCH_ALL_DATA_FIELDS, false)
+        putStringArrayListExtra(
+          EXTRA_PICK_CONTACTS_REQUESTED_DATA_FIELDS,
+          arrayListOf(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE,
+            ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE,
+            ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE
+          )
+        )
       }
       multiPicker.launch(intent)
     } else {

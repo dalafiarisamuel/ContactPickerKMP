@@ -7,6 +7,8 @@ import android.net.Uri
 import android.provider.ContactsContract
 import androidx.core.net.toUri
 import com.devtamuno.kmp.contactpicker.data.Contact
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /** Columns queried from the [ContactsContract.Contacts] table. */
 internal val contactProjection =
@@ -131,6 +133,64 @@ internal fun getEmailAddresses(
         }
     }
     return emailMap
+}
+
+/**
+ * Processes the Session URI returned by the Android 17+ Contact Picker.
+ */
+internal suspend fun processContactPickerSessionUri(
+    context: Context,
+    sessionUri: Uri
+): List<Contact> = withContext(Dispatchers.IO) {
+    val projection = arrayOf(
+        ContactsContract.Contacts.LOOKUP_KEY,
+        ContactsContract.Data.CONTACT_ID,
+        ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
+        ContactsContract.Data.MIMETYPE,
+        ContactsContract.Data.DATA1,
+        ContactsContract.Data.DATA15,
+    )
+
+    val contactsMap = mutableMapOf<String, Contact>()
+
+    context.contentResolver.query(sessionUri, projection, null, null, null)?.use { cursor ->
+        val lookupKeyIdx = cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY)
+        val contactIdIdx = cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID)
+        val mimeTypeIdx = cursor.getColumnIndex(ContactsContract.Data.MIMETYPE)
+        val nameIdx = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY)
+        val data1Idx = cursor.getColumnIndex(ContactsContract.Data.DATA1)
+        val data15Idx = cursor.getColumnIndex(ContactsContract.Data.DATA15)
+
+        while (cursor.moveToNext()) {
+            val lookupKey = cursor.getString(lookupKeyIdx)
+            val contactId = cursor.getString(contactIdIdx)
+            val mimeType = cursor.getString(mimeTypeIdx)
+            val name = cursor.getString(nameIdx) ?: "Unknown"
+            val data1 = cursor.getString(data1Idx) ?: ""
+
+            val email = if (mimeType == ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE) data1 else null
+            val phone = if (mimeType == ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE) data1 else null
+            val photo = if (mimeType == ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE) cursor.getBlob(data15Idx) else null
+
+            val existingContact = contactsMap[lookupKey]
+            if (existingContact != null) {
+                contactsMap[lookupKey] = existingContact.copy(
+                    email = if (email != null && email !in existingContact.email) existingContact.email + email else existingContact.email,
+                    phoneNumbers = if (phone != null && phone !in existingContact.phoneNumbers) existingContact.phoneNumbers + phone else existingContact.phoneNumbers,
+                    contactAvatar = existingContact.contactAvatar ?: photo
+                )
+            } else {
+                contactsMap[lookupKey] = Contact(
+                    id = contactId ?: lookupKey,
+                    name = name,
+                    email = if (email != null) listOf(email) else emptyList(),
+                    phoneNumbers = if (phone != null) listOf(phone) else emptyList(),
+                    contactAvatar = photo
+                )
+            }
+        }
+    }
+    contactsMap.values.toList()
 }
 
 /**
