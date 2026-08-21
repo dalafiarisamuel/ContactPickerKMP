@@ -16,23 +16,8 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Configure GPG
-        env:
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-        run: |
-          brew install gpg
-          echo "$SIGNING_KEY" | gpg --dearmor > ${HOME}/secring.gpg
-
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-
-      - name: Setup Xcode
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: latest-stable
 
       - name: Publish To Maven Central
         env:
