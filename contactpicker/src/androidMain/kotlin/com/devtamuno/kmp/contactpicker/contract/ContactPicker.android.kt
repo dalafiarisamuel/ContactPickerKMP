@@ -1,5 +1,6 @@
 package com.devtamuno.kmp.contactpicker.contract
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -11,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import android.provider.ContactsContract
 import com.devtamuno.kmp.contactpicker.data.Contact
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 private const val ACTION_PICK_CONTACTS = "android.provider.action.PICK_CONTACTS"
@@ -52,24 +54,7 @@ internal actual class ContactPicker {
 
     multiPicker =
       rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == android.app.Activity.RESULT_OK) {
-          val data = result.data
-          if (Build.VERSION.SDK_INT >= 37 && data?.data != null) {
-            coroutineScope.launch {
-              callback(processContactPickerSessionUri(context, data.data!!))
-            }
-          } else {
-            val uris = mutableListOf<Uri>()
-            data?.data?.let { uris.add(it) }
-            data?.clipData?.let { clipData ->
-              for (i in 0 until clipData.itemCount) {
-                uris.add(clipData.getItemAt(i).uri)
-              }
-            }
-            val contacts = getContactsByUris(context, uris)
-            callback(contacts)
-          }
-        }
+        handleMultiContactPickerResult(result, context, coroutineScope, callback)
       }
 
     if (showCustomPicker.value) {
@@ -119,6 +104,32 @@ internal actual class ContactPicker {
       multiPicker.launch(intent)
     } else {
       showCustomPicker.value = true
+    }
+  }
+
+  private fun handleMultiContactPickerResult(
+    result: ActivityResult,
+    context: android.content.Context,
+    coroutineScope: CoroutineScope,
+    callback: (List<Contact>) -> Unit
+  ) {
+    if (result.resultCode == Activity.RESULT_OK) {
+      val data = result.data
+      if (Build.VERSION.SDK_INT >= 37 && data?.data != null) {
+        coroutineScope.launch {
+          callback(processContactPickerSessionUri(context, data.data!!))
+        }
+      } else {
+        val uris = mutableListOf<Uri>()
+        data?.data?.let { uris.add(it) }
+        data?.clipData?.let { clipData ->
+          for (i in 0 until clipData.itemCount) {
+            uris.add(clipData.getItemAt(i).uri)
+          }
+        }
+        val contacts = getContactsByUris(context, uris)
+        callback(contacts)
+      }
     }
   }
 }
