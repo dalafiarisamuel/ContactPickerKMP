@@ -10,7 +10,8 @@
 
 - **Native Experience**: Uses `PickContact` contract on Android and `CNContactPickerViewController` on iOS.
 - **Compose Multiplatform**: Easy-to-use Composable API with `rememberContactPickerState()` and `rememberMultiContactPickerState()`.
-- **Multi-Selection Support**: Select multiple contacts at once with platform-native behavior on iOS and a consistent checkbox-based UI on Android.
+- **Multi-Selection Support**: Select multiple contacts at once. Supports the native `ACTION_PICK_CONTACTS` on Android 17 (API 37+) and native `CNContactPickerViewController` on iOS.
+- **Backward Compatibility**: Provides a consistent, custom checkbox-based UI for multi-selection on Android versions prior to API 37.
 - **State Management**: Reactive state handling with built-in `clear()` support to reset selections.
 - **Avatar Support**: Retrieve and display contact profile pictures across platforms.
 - **Rich Data**: Access names, multiple phone numbers, and email addresses.
