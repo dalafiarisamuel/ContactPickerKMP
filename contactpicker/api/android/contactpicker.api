@@ -6,10 +6,11 @@ public final class com/devtamuno/kmp/contactpicker/ContactPickerStateKt {
 public final class com/devtamuno/kmp/contactpicker/contract/ComposableSingletons$CustomMultiContactPicker_androidKt {
 	public static final field INSTANCE Lcom/devtamuno/kmp/contactpicker/contract/ComposableSingletons$CustomMultiContactPicker_androidKt;
 	public fun <init> ()V
-	public final fun getLambda$-168661149$contactpicker_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-563652864$contactpicker_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-810356159$contactpicker_release ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$1919747231$contactpicker_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1328746891$contactpicker_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1638627512$contactpicker_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-181089740$contactpicker_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1899976234$contactpicker_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1206660394$contactpicker_release ()Lkotlin/jvm/functions/Function2;
 }
 
 public abstract interface class com/devtamuno/kmp/contactpicker/contract/ContactPickerState {
