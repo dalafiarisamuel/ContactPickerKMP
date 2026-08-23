@@ -8,7 +8,8 @@ jobs:
   build:
     name: Build
     runs-on: macos-latest
-    environment: production
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -30,3 +31,9 @@ jobs:
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
         run: |
           ./gradlew :contactpicker:publishToMavenCentral -no-configuration-cache --info --stacktrace
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          generate_release_notes: true
