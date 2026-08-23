@@ -2,12 +2,14 @@ package com.devtamuno.kmp.contactpicker.contract
 
 import android.content.Context
 import android.provider.ContactsContract
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -23,8 +25,33 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.devtamuno.kmp.contactpicker.data.Contact
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlin.math.absoluteValue
+
+private val AvatarColors =
+    listOf(
+        Color(0xFFEF5350),
+        Color(0xFFEC407A),
+        Color(0xFFAB47BC),
+        Color(0xFF7E57C2),
+        Color(0xFF5C6BC0),
+        Color(0xFF42A5F5),
+        Color(0xFF29B6F6),
+        Color(0xFF26C6DA),
+        Color(0xFF26A69A),
+        Color(0xFF66BB6A),
+        Color(0xFF9CCC65),
+        Color(0xFFD4E157),
+        Color(0xFFFFEE58),
+        Color(0xFFFFCA28),
+        Color(0xFFFFA726),
+        Color(0xFFFF7043),
+    )
+
+private fun getAvatarColor(name: String): Color {
+  val firstChar = name.firstOrNull() ?: return Color.Gray
+  val index = firstChar.code.absoluteValue % AvatarColors.size
+  return AvatarColors[index]
+}
 
 @Composable
 internal fun CustomMultiContactPicker(
@@ -33,162 +60,181 @@ internal fun CustomMultiContactPicker(
     onDismiss: () -> Unit,
     onDone: (List<Contact>) -> Unit,
 ) {
-    var searchQuery by remember { mutableStateOf("") }
-    val selectedIds = remember { mutableStateListOf<String>() }
+  var searchQuery by remember { mutableStateOf("") }
+  val selectedIds = remember { mutableStateListOf<String>() }
 
-    val filteredContacts =
+  val filteredContacts =
+      remember(searchQuery, contacts) {
         if (searchQuery.isEmpty()) {
-            contacts
+          contacts
         } else {
-            contacts.filter { it.name.contains(searchQuery, ignoreCase = true) }
+          contacts.filter { it.name.contains(searchQuery, ignoreCase = true) }
         }
+      }
 
-    Dialog(
-        onDismissRequest = onDismiss,
-        properties = DialogProperties(usePlatformDefaultWidth = false),
-    ) {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-            Column(modifier = Modifier.fillMaxSize()) {
-                // Top Bar
-                TopAppBar(
-                    title = { Text("Select Contacts") },
-                    navigationIcon = {
-                        IconButton(onClick = onDismiss) {
-                            Icon(Icons.Default.Close, contentDescription = "Close")
-                        }
-                    },
-                    actions = {
-                        TextButton(
-                            onClick = {
-                                val selected = contacts.filter { it.id in selectedIds }
-                                onDone(selected)
-                            }
-                        ) {
-                            Text(
-                                "DONE (${selectedIds.size})",
-                                color = MaterialTheme.colors.onPrimary,
-                                fontWeight = FontWeight.Bold,
-                            )
-                        }
-                    },
-                )
-
-                // Search Bar
-                TextField(
-                    value = searchQuery,
-                    onValueChange = { searchQuery = it },
-                    modifier = Modifier.fillMaxWidth().padding(8.dp),
-                    placeholder = { Text("Search contacts...") },
-                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                    singleLine = true,
-                    colors =
-                    TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                    ),
-                )
-
-                if (isLoading) {
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
-                    }
-                } else {
-                    LazyColumn(modifier = Modifier.weight(1f)) {
-                        items(filteredContacts, key = { it.id }) { contact ->
-                            ContactItem(
-                                contact = contact,
-                                isSelected = contact.id in selectedIds,
-                                onToggle = {
-                                    if (contact.id in selectedIds) {
-                                        selectedIds.remove(contact.id)
-                                    } else {
-                                        selectedIds.add(contact.id)
-                                    }
-                                },
-                            )
-                        }
-                    }
+  Dialog(
+      onDismissRequest = onDismiss,
+      properties = DialogProperties(usePlatformDefaultWidth = false),
+  ) {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        backgroundColor = MaterialTheme.colors.surface,
+        topBar = {
+          TopAppBar(
+              title = { Text("Select contacts") },
+              navigationIcon = {
+                IconButton(onClick = onDismiss) {
+                  Icon(Icons.Default.Close, contentDescription = "Close")
                 }
-            }
+              },
+              actions = {
+                OutlinedButton(
+                    onClick = {
+                      val selected = contacts.filter { it.id in selectedIds }
+                      onDone(selected)
+                    },
+                    enabled = selectedIds.isNotEmpty(),
+                    shape = RoundedCornerShape(50),
+                    border =
+                        BorderStroke(
+                            width = 1.dp,
+                            color =
+                                if (selectedIds.isNotEmpty()) {
+                                  MaterialTheme.colors.primary.copy(alpha = 0.3f)
+                                } else {
+                                  MaterialTheme.colors.onSurface.copy(alpha = 0.12f)
+                                },
+                        ),
+                    colors =
+                        ButtonDefaults.outlinedButtonColors(
+                            contentColor = MaterialTheme.colors.primary,
+                            backgroundColor = Color.Transparent,
+                            disabledContentColor =
+                                MaterialTheme.colors.onSurface.copy(alpha = 0.38f),
+                        ),
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+                    modifier =
+                        Modifier.padding(end = 8.dp).height(32.dp).align(Alignment.CenterVertically),
+                ) {
+                  Text(
+                      text = if (selectedIds.isEmpty()) "Done" else "Done (${selectedIds.size})",
+                      fontSize = 12.sp,
+                      fontWeight = FontWeight.Bold,
+                  )
+                }
+              },
+              backgroundColor = MaterialTheme.colors.surface,
+              elevation = 0.dp,
+          )
+        },
+    ) { padding ->
+      Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+        // Search Bar
+        Surface(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+            shape = CircleShape,
+            color = MaterialTheme.colors.onSurface.copy(alpha = 0.08f),
+        ) {
+          TextField(
+              value = searchQuery,
+              onValueChange = { searchQuery = it },
+              placeholder = { Text("Search contacts") },
+              leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+              trailingIcon =
+                  if (searchQuery.isNotEmpty()) {
+                    {
+                      IconButton(onClick = { searchQuery = "" }) {
+                        Icon(Icons.Default.Close, contentDescription = "Clear")
+                      }
+                    }
+                  } else null,
+              singleLine = true,
+              colors =
+                  TextFieldDefaults.textFieldColors(
+                      backgroundColor = Color.Transparent,
+                      focusedIndicatorColor = Color.Transparent,
+                      unfocusedIndicatorColor = Color.Transparent,
+                      disabledIndicatorColor = Color.Transparent,
+                  ),
+              modifier = Modifier.fillMaxWidth(),
+          )
         }
+
+        if (isLoading) {
+          Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+          }
+        } else {
+          LazyColumn(modifier = Modifier.weight(1f)) {
+            items(filteredContacts, key = { it.id }) { contact ->
+              ContactItem(
+                  contact = contact,
+                  isSelected = contact.id in selectedIds,
+                  onToggle = {
+                    if (contact.id in selectedIds) {
+                      selectedIds.remove(contact.id)
+                    } else {
+                      selectedIds.add(contact.id)
+                    }
+                  },
+              )
+            }
+          }
+        }
+      }
     }
+  }
 }
 
 @Composable
 private fun ContactItem(contact: Contact, isSelected: Boolean, onToggle: () -> Unit) {
-    Row(
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onToggle).padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
+  Row(
+      modifier =
+          Modifier.fillMaxWidth()
+              .background(
+                  if (isSelected) MaterialTheme.colors.primary.copy(alpha = 0.1f)
+                  else Color.Transparent
+              )
+              .clickable(onClick = onToggle)
+              .padding(horizontal = 16.dp, vertical = 12.dp),
+      verticalAlignment = Alignment.CenterVertically,
+  ) {
+    val avatarColor = remember(contact.name) { getAvatarColor(contact.name) }
+    Box(
+        modifier = Modifier.size(48.dp).clip(CircleShape).background(avatarColor),
+        contentAlignment = Alignment.Center,
     ) {
-        // Placeholder for Avatar (since we don't fetch all for the list)
-        Box(
-            modifier = Modifier.size(40.dp).clip(CircleShape).background(Color.LightGray),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(
-                text = contact.name.firstOrNull()?.toString()?.uppercase() ?: "?",
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-            )
-        }
-
-        Column(modifier = Modifier.weight(1f).padding(horizontal = 16.dp)) {
-            Text(text = contact.name, fontSize = 16.sp, fontWeight = FontWeight.Medium)
-            if (contact.phoneNumbers.isNotEmpty()) {
-                Text(text = contact.phoneNumbers.first(), fontSize = 14.sp, color = Color.Gray)
-            }
-        }
-
-        Checkbox(checked = isSelected, onCheckedChange = { onToggle() })
+      Text(
+          text = contact.name.firstOrNull()?.uppercase() ?: "?",
+          color = Color.White,
+          fontWeight = FontWeight.Bold,
+          fontSize = 20.sp,
+      )
     }
+
+    Column(modifier = Modifier.weight(1f).padding(horizontal = 16.dp)) {
+      Text(
+          text = contact.name,
+          fontSize = 16.sp,
+          fontWeight = FontWeight.Medium,
+          color = MaterialTheme.colors.onSurface,
+      )
+      if (contact.phoneNumbers.isNotEmpty()) {
+        Text(
+            text = contact.phoneNumbers.first(),
+            fontSize = 14.sp,
+            color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+        )
+      }
+    }
+
+    Checkbox(
+        checked = isSelected,
+        onCheckedChange = { onToggle() },
+        colors =
+            CheckboxDefaults.colors(
+                checkedColor = MaterialTheme.colors.primary,
+            ),
+    )
+  }
 }
-
-internal suspend fun fetchAllContacts(context: Context): List<Contact> =
-    withContext(Dispatchers.IO) {
-        val contacts = mutableListOf<Contact>()
-        val contentResolver = context.contentResolver
-
-        val cursor =
-            contentResolver.query(
-                ContactsContract.Contacts.CONTENT_URI,
-                contactProjection,
-                null,
-                null,
-                "${ContactsContract.Contacts.DISPLAY_NAME} ASC",
-            )
-
-        val contactIds = mutableListOf<String>()
-        val contactNames = mutableMapOf<String, String>()
-
-        cursor?.use {
-            val idIndex = it.getColumnIndex(ContactsContract.Contacts._ID)
-            val nameIndex = it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
-            while (it.moveToNext()) {
-                val id = it.getString(idIndex)
-                val name = it.getString(nameIndex) ?: "Unknown"
-                contactIds.add(id)
-                contactNames[id] = name
-            }
-        }
-
-        if (contactIds.isEmpty()) return@withContext emptyList()
-
-        val phoneMap = getPhoneNumbers(context, null)
-        val emailMap = getEmailAddresses(context, null)
-
-        for (id in contactIds) {
-            contacts.add(
-                Contact(
-                    id = id,
-                    name = contactNames[id] ?: "",
-                    phoneNumbers = phoneMap[id] ?: emptyList(),
-                    email = emailMap[id] ?: emptyList(),
-                    contactAvatar = null // Hydrate on selection for performance
-                )
-            )
-        }
-
-        contacts
-    }

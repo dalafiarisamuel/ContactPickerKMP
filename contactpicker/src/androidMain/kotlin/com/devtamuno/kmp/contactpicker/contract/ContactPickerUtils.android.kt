@@ -233,3 +233,51 @@ internal fun getContactAvatar(context: Context, contactId: Long): ByteArray? {
     }
     return null
 }
+
+internal suspend fun fetchAllContacts(context: Context): List<Contact> =
+    withContext(Dispatchers.IO) {
+        val contacts = mutableListOf<Contact>()
+        val contentResolver = context.contentResolver
+
+        val cursor =
+            contentResolver.query(
+                ContactsContract.Contacts.CONTENT_URI,
+                contactProjection,
+                null,
+                null,
+                "${ContactsContract.Contacts.DISPLAY_NAME} ASC",
+            )
+
+        val contactIds = mutableListOf<String>()
+        val contactNames = mutableMapOf<String, String>()
+
+        cursor?.use {
+            val idIndex = it.getColumnIndex(ContactsContract.Contacts._ID)
+            val nameIndex = it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
+            while (it.moveToNext()) {
+                val id = it.getString(idIndex)
+                val name = it.getString(nameIndex) ?: "Unknown"
+                contactIds.add(id)
+                contactNames[id] = name
+            }
+        }
+
+        if (contactIds.isEmpty()) return@withContext emptyList()
+
+        val phoneMap = getPhoneNumbers(context, null)
+        val emailMap = getEmailAddresses(context, null)
+
+        for (id in contactIds) {
+            contacts.add(
+                Contact(
+                    id = id,
+                    name = contactNames[id] ?: "",
+                    phoneNumbers = phoneMap[id] ?: emptyList(),
+                    email = emailMap[id] ?: emptyList(),
+                    contactAvatar = null, // Hydrate on selection for performance
+                )
+            )
+        }
+
+        contacts
+    }
