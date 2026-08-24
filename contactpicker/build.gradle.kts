@@ -77,10 +77,14 @@ dokka {
 }
 
 signing {
-    useInMemoryPgpKeys(
-        System.getenv("SIGNING_KEY"),
-        System.getenv("SIGNING_KEY_PASSWORD")
-    )
+    val signingKeyId = System.getenv("SIGNING_KEY_ID")
+    val signingKey = System.getenv("SIGNING_KEY")
+    val signingPassword = System.getenv("SIGNING_KEY_PASSWORD")
+
+    if (!signingKey.isNullOrBlank()) {
+        useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+    }
+
     sign(publishing.publications)
 
     // Temporary workaround, see https://github.com/gradle/gradle/issues/26091#issuecomment-1722947958

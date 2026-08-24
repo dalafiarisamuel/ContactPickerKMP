@@ -113,13 +113,13 @@ To sign your artifacts, you need a GPG key:
     - List generate keys by running this command: ```gpg --list-secret-keys```
     - Copy the long form of the newly generated gpg key e.g `574DEB97803CD28D5F07A4054DCE5983654E7199`
     - Export your key to base64 PGP private key block
-      `--armor --export-secret-keys 574DEB97803CD28D5F07A4054DCE5983654E7199 | pbcopy` N/B: this will be copied to your
+      `gpg --armor --export-secret-keys 574DEB97803CD28D5F07A4054DCE5983654E7199 | pbcopy` N/B: this will be copied to your
       clipboard. you can paste it into another file before you continue to the next step.
     - Save exported key to a `.gpg` file by running this command:
       ```echo "paste the exported base64 key block" | gpg --dearmor > ~/secring.gpg```. This should generate a file
       secring.gpg in your root directory.
     - Upload your key to a public repository. This step is compulsory, as it's the only way Maven Central can validate
-      the files you're uploading: ```--keyserver keys.openpgp.org --send-key 574DEB97803CD28D5F07A4054DCE5983654E7199```
+      the files you're uploading: `gpg --keyserver keys.openpgp.org --send-key 574DEB97803CD28D5F07A4054DCE5983654E7199`
     - Check the email address attached to that key, you should get an email asking you to verify the email address.
       follow the prompt and verify the email address accordingly.
 
@@ -144,7 +144,17 @@ To sign your artifacts, you need a GPG key:
    ```
 
 
-### Step 5: Push to Maven Central
+### Step 5: CI Configuration (GitHub Actions)
+
+If you are using GitHub Actions, do not use `gradle.properties` for secrets. Instead, add these **Encrypted Secrets** in your Repository Settings:
+
+- `MAVEN_CENTRAL_USERNAME`: Your Sonatype token username.
+- `MAVEN_CENTRAL_PASSWORD`: Your Sonatype token password.
+- `SIGNING_KEY`: The full text from `pbcopy` (Step 4.2).
+- `SIGNING_KEY_ID`: The last 8 characters of your key (e.g., `654E7199`).
+- `SIGNING_KEY_PASSWORD`: Your GPG passphrase.
+
+### Step 6: Push to Maven Central
 - Make sure your app builds and runs 👀
 - Run this gradle command to push your package to maven central:
       ```./gradlew publishToMavenCentral --no-configuration-cache```.
