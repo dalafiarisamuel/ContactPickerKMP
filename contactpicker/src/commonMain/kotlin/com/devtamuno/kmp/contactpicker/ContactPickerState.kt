@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.devtamuno.kmp.contactpicker.contract.ContactPickerState
 import com.devtamuno.kmp.contactpicker.contract.ContactPickerStateImpl
+import com.devtamuno.kmp.contactpicker.contract.InternalContactPickerState
+import com.devtamuno.kmp.contactpicker.contract.InternalMultiContactPickerState
 import com.devtamuno.kmp.contactpicker.contract.MultiContactPickerState
 import com.devtamuno.kmp.contactpicker.contract.MultiContactPickerStateImpl
 import com.devtamuno.kmp.contactpicker.data.Contact
@@ -24,7 +26,7 @@ fun rememberContactPickerState(
     contactPicked: (Contact?) -> Unit = {},
 ): ContactPickerState {
     return rememberMutableContactPickerState(contactPicked).also {
-        it.InitContactPicker()
+        (it as? InternalContactPickerState)?.InitContactPicker()
     }
 }
 
@@ -54,7 +56,7 @@ fun rememberMultiContactPickerState(
     contactsPicked: (List<Contact>) -> Unit = {},
 ): MultiContactPickerState {
     return rememberMutableMultiContactPickerState(contactsPicked).also {
-        it.InitContactPicker()
+        (it as? InternalMultiContactPickerState)?.InitContactPicker()
     }
 }
 
