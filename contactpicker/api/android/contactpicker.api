@@ -14,14 +14,12 @@ public final class com/devtamuno/kmp/contactpicker/contract/ComposableSingletons
 }
 
 public abstract interface class com/devtamuno/kmp/contactpicker/contract/ContactPickerState {
-	public abstract fun InitContactPicker (Landroidx/compose/runtime/Composer;I)V
 	public abstract fun clear ()V
 	public abstract fun getValue ()Landroidx/compose/runtime/State;
 	public abstract fun launchContactPicker ()V
 }
 
 public abstract interface class com/devtamuno/kmp/contactpicker/contract/MultiContactPickerState {
-	public abstract fun InitContactPicker (Landroidx/compose/runtime/Composer;I)V
 	public abstract fun clear ()V
 	public abstract fun getValue ()Landroidx/compose/runtime/State;
 	public abstract fun launchContactPicker ()V
