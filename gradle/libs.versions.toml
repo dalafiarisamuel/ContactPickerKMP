@@ -14,7 +14,7 @@ kotlinxCoroutinesCore = "1.10.2"
 calfPermissions = "0.6.1"
 vanniktechMavenPublish = "0.30.0"
 dokka-version="2.1.0"
-contact-picker-version="0.3.0"
+contact-picker-version="0.3.1"
 
 
 [libraries]
