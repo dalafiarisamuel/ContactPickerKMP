@@ -37,7 +37,7 @@ internal actual class ContactPicker {
   private val showCustomPicker = mutableStateOf(false)
 
   @Composable
-  actual fun RegisterContactPicker(onContactSelected: (Contact?) -> Unit) {
+  internal actual fun RegisterContactPicker(onContactSelected: (Contact?) -> Unit) {
     val callback by rememberUpdatedState(onContactSelected)
     if (::picker.isInitialized) return
 
@@ -55,7 +55,7 @@ internal actual class ContactPicker {
   }
 
   @Composable
-  actual fun RegisterMultiContactPicker(onContactsSelected: (List<Contact>) -> Unit) {
+  internal actual fun RegisterMultiContactPicker(onContactsSelected: (List<Contact>) -> Unit) {
     val callback by rememberUpdatedState(onContactsSelected)
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
@@ -94,11 +94,11 @@ internal actual class ContactPicker {
       }
   }
 
-  actual fun launchContactPicker() {
+  internal actual fun launchContactPicker() {
     picker.launch(null)
   }
 
-  actual fun launchMultiContactPicker() {
+  internal actual fun launchMultiContactPicker() {
     if (Build.VERSION.SDK_INT >= SYSTEM_CONTACTS_PICKER_MIN_SDK) {
       val intent = Intent(ACTION_PICK_CONTACTS).apply {
         putExtra(EXTRA_USE_SYSTEM_CONTACTS_PICKER, true)

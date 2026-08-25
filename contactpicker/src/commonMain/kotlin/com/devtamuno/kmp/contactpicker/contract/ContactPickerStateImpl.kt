@@ -18,7 +18,7 @@ import com.devtamuno.kmp.contactpicker.data.Contact
  */
 internal class ContactPickerStateImpl(
     private val contactPicked: (Contact?) -> Unit,
-) : ContactPickerState {
+) : InternalContactPickerState {
 
     private val _value: MutableState<Contact?> = mutableStateOf(null)
 
@@ -74,7 +74,7 @@ internal class ContactPickerStateImpl(
  */
 internal class MultiContactPickerStateImpl(
     private val contactsPicked: (List<Contact>) -> Unit,
-) : MultiContactPickerState {
+) : InternalMultiContactPickerState {
 
     private val _value: MutableState<List<Contact>> = mutableStateOf(emptyList())
 

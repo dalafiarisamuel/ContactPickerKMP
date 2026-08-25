@@ -41,7 +41,7 @@ internal actual class ContactPicker {
      * Registers the callback for single contact selection.
      */
     @Composable
-    actual fun RegisterContactPicker(onContactSelected: (Contact?) -> Unit) {
+    internal actual fun RegisterContactPicker(onContactSelected: (Contact?) -> Unit) {
         val callback by rememberUpdatedState(onContactSelected)
         remember {
             singleDelegate = SingleContactPickerDelegate { callback(it) }
@@ -51,7 +51,7 @@ internal actual class ContactPicker {
     /**
      * Displays the native iOS contact picker for single selection.
      */
-    actual fun launchContactPicker() {
+    internal actual fun launchContactPicker() {
         val picker = CNContactPickerViewController()
         picker.delegate = singleDelegate
         UIViewController.topMostViewController()?.presentViewController(picker, true, null)
@@ -61,7 +61,7 @@ internal actual class ContactPicker {
      * Registers the callback for multiple contact selection.
      */
     @Composable
-    actual fun RegisterMultiContactPicker(onContactsSelected: (List<Contact>) -> Unit) {
+    internal actual fun RegisterMultiContactPicker(onContactsSelected: (List<Contact>) -> Unit) {
         val callback by rememberUpdatedState(onContactsSelected)
         remember {
             multiDelegate = MultiContactPickerDelegate { callback(it) }
@@ -71,7 +71,7 @@ internal actual class ContactPicker {
     /**
      * Displays the native iOS contact picker for multiple selection.
      */
-    actual fun launchMultiContactPicker() {
+    internal actual fun launchMultiContactPicker() {
         val picker = CNContactPickerViewController()
         picker.delegate = multiDelegate
         picker.modalInPresentation = true

@@ -8,7 +8,7 @@ import com.devtamuno.kmp.contactpicker.data.Contact
  * Defines the contract for managing the state and interactions of a contact picker.
  *
  * This interface provides a reactive way to observe the selected contact and methods
- * to initialize and trigger the platform-specific contact selection UI.
+ * to trigger the platform-specific contact selection UI.
  */
 interface ContactPickerState {
 
@@ -19,17 +19,6 @@ interface ContactPickerState {
      * platform's native picker. It is initialized to `null`.
      */
     val value: State<Contact?>
-
-    /**
-     * Initializes the contact picker's internal infrastructure.
-     *
-     * This method **must** be invoked within a [Composable] context, typically via 
-     * `rememberContactPickerState`. It ensures that the necessary platform hooks (such as 
-     * activity result launchers on Android or delegates on iOS) are correctly registered 
-     * within the composition lifecycle.
-     */
-    @Composable
-    fun InitContactPicker()
 
     /**
      * Requests the display of the system's native contact selection interface.
@@ -50,7 +39,7 @@ interface ContactPickerState {
  * Defines the contract for managing the state and interactions of a multi-contact picker.
  *
  * This interface provides a reactive way to observe the selected contacts and methods
- * to initialize and trigger the platform-specific contact selection UI.
+ * to trigger the platform-specific contact selection UI.
  */
 interface MultiContactPickerState {
 
@@ -61,17 +50,6 @@ interface MultiContactPickerState {
      * platform's native picker. It is initialized to an empty list.
      */
     val value: State<List<Contact>>
-
-    /**
-     * Initializes the contact picker's internal infrastructure.
-     *
-     * This method **must** be invoked within a [Composable] context, typically via
-     * `rememberMultiContactPickerState`. It ensures that the necessary platform hooks (such as
-     * activity result launchers on Android or delegates on iOS) are correctly registered
-     * within the composition lifecycle.
-     */
-    @Composable
-    fun InitContactPicker()
 
     /**
      * Requests the display of the system's native multi-contact selection interface.
@@ -86,4 +64,14 @@ interface MultiContactPickerState {
      * Clears all currently selected contacts.
      */
     fun clear()
+}
+
+internal interface InternalContactPickerState : ContactPickerState {
+    @Composable
+    fun InitContactPicker()
+}
+
+internal interface InternalMultiContactPickerState : MultiContactPickerState {
+    @Composable
+    fun InitContactPicker()
 }

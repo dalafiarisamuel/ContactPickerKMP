@@ -23,7 +23,7 @@ internal expect class ContactPicker() {
      * if the selection was cancelled or failed.
      */
     @Composable
-    fun RegisterContactPicker(onContactSelected: (Contact?) -> Unit)
+    internal fun RegisterContactPicker(onContactSelected: (Contact?) -> Unit)
 
     /**
      * Triggers the display of the platform-specific contact picker interface.
@@ -31,7 +31,7 @@ internal expect class ContactPicker() {
      * Calling this method will navigate the user away from the current app to the system's
      * contact selection UI.
      */
-    fun launchContactPicker()
+    internal fun launchContactPicker()
 
     /**
      * Registers the multi-contact picker within the Compose composition.
@@ -39,10 +39,10 @@ internal expect class ContactPicker() {
      * @param onContactsSelected Callback invoked with the list of selected [Contact] objects.
      */
     @Composable
-    fun RegisterMultiContactPicker(onContactsSelected: (List<Contact>) -> Unit)
+    internal fun RegisterMultiContactPicker(onContactsSelected: (List<Contact>) -> Unit)
 
     /**
      * Triggers the display of the platform-specific multi-contact selection interface.
      */
-    fun launchMultiContactPicker()
+    internal fun launchMultiContactPicker()
 }
