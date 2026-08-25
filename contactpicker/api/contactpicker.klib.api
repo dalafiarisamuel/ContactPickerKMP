@@ -10,7 +10,6 @@ abstract interface com.devtamuno.kmp.contactpicker.contract/ContactPickerState {
     abstract val value // com.devtamuno.kmp.contactpicker.contract/ContactPickerState.value|{}value[0]
         abstract fun <get-value>(): androidx.compose.runtime/State<com.devtamuno.kmp.contactpicker.data/Contact?> // com.devtamuno.kmp.contactpicker.contract/ContactPickerState.value.<get-value>|<get-value>(){}[0]
 
-    abstract fun InitContactPicker(androidx.compose.runtime/Composer?, kotlin/Int) // com.devtamuno.kmp.contactpicker.contract/ContactPickerState.InitContactPicker|InitContactPicker(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
     abstract fun clear() // com.devtamuno.kmp.contactpicker.contract/ContactPickerState.clear|clear(){}[0]
     abstract fun launchContactPicker() // com.devtamuno.kmp.contactpicker.contract/ContactPickerState.launchContactPicker|launchContactPicker(){}[0]
 }
@@ -19,7 +18,6 @@ abstract interface com.devtamuno.kmp.contactpicker.contract/MultiContactPickerSt
     abstract val value // com.devtamuno.kmp.contactpicker.contract/MultiContactPickerState.value|{}value[0]
         abstract fun <get-value>(): androidx.compose.runtime/State<kotlin.collections/List<com.devtamuno.kmp.contactpicker.data/Contact>> // com.devtamuno.kmp.contactpicker.contract/MultiContactPickerState.value.<get-value>|<get-value>(){}[0]
 
-    abstract fun InitContactPicker(androidx.compose.runtime/Composer?, kotlin/Int) // com.devtamuno.kmp.contactpicker.contract/MultiContactPickerState.InitContactPicker|InitContactPicker(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
     abstract fun clear() // com.devtamuno.kmp.contactpicker.contract/MultiContactPickerState.clear|clear(){}[0]
     abstract fun launchContactPicker() // com.devtamuno.kmp.contactpicker.contract/MultiContactPickerState.launchContactPicker|launchContactPicker(){}[0]
 }
