@@ -11,10 +11,30 @@ categories:
       - 'bug'
   - title: '🧰 Maintenance'
     labels:
-      - 'chore'
-      - 'dependencies'
+      - chore
+      - documentation
+      - dependencies
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+change-title-escapes: '\<*_&'
+
+version-resolver:
+  major:
+    labels:
+      - major
+      - breaking-change
+  minor:
+    labels:
+      - feature
+      - enhancement
+  patch:
+    labels:
+      - bug
+      - fix
+      - chore
+      - documentation
+      - dependencies
+  default: patch
 template: |
-  ## what's Changed
+  ## Changes
 
   $CHANGES
